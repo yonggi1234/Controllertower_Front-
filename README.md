@@ -7,6 +7,8 @@
 yarn eject
 
 yarn add sass-loader node-sass classnames
+
+yarn add open-color
 ```
 
 * webpack 설정 파일 수정
