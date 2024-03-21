@@ -26,8 +26,8 @@ loader: require.resolve('css-loader'),
     localIdentName: '[path][name]__[local]--[hash:base64:5]'
 }
 ```
+* config/paths.js 파일에서 styles 디렉터리 정의
 ```
-# config/paths.js 파일에서 styles 디렉터리 정의
 module.exports = {
 (...),
 styles: resolveApp('src/style')
