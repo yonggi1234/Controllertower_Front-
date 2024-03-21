@@ -27,6 +27,10 @@ loader: require.resolve('css-loader'),
 }
 ```
 ```
-# config/webpack.config.dev.js 파일에서
+# config/paths.js 파일에서 styles 디렉터리 정의
+module.exports = {
+(...),
+styles: resolveApp('src/style')
+};
 
 ```
