@@ -1,24 +1,20 @@
-// import { Fragment } from 'react';
-// import axios form "axios";
-// import MyComponent from './MyComponent';
-import './App.css';
+// import React,{Component} from 'react';
+import React from "react";
+import "./style/main.scss"
 
-const App = () => {
-  const text='hihi';
-  const style={
-    backgroundColor: 'gray',
-    border: '1px solid black',
-    width: '100px',
-    height: '3px'
-  }
-
-// function App() {
-  return (
+class App {
+  
+  render(){
     
-    <div style={style}>
-      {text}
-    </div>
-  );
-}
-export default App;
 
+    return(
+      <div>
+        scss 적용 확인
+      </div>  
+   )
+  }
+}
+
+
+
+export default App;
