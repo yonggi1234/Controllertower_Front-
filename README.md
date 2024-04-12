@@ -3,15 +3,20 @@
 
 ### 초기 구성
 * 프로젝트 환경 설정
-```
-yarn eject
 
-yarn add sass-loader node-sass classnames
+  yarn eject
 
-yarn add open-color
-```
+  yarn add sass-loader node-sass classnames
 
-* webpack 설정 파일 수정
+  yarn add open-color
+
+
+### 추가 설치
+
+  yarn add react-modal  //팝업창
+
+
+### webpack 설정 파일 수정
 
 ```
 # config/webpack.config.dev.js 파일에서

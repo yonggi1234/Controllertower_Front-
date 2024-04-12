@@ -1,20 +1,17 @@
-// import React,{Component} from 'react';
-import React from "react";
-import "./style/main.scss"
+import React from 'react';
+import Todo from './components/List/Todo';
+import ReactPlayer from 'react-player';
+import Video from './components/List/Video';
 
-class App {
-  
-  render(){
-    
+import Videoinfo from './video/video.json';
 
-    return(
-      <div>
-        scss 적용 확인
-      </div>  
-   )
-  }
-}
-
-
+const App = () => {
+  const video = Videoinfo.slides;
+  return (
+    <div>
+      <Video data={video}/>
+    </div>
+  );
+};
 
 export default App;
