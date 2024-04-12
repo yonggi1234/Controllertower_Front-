@@ -3,13 +3,13 @@
 
 ### 초기 구성
 * 프로젝트 환경 설정
-
+```
   yarn eject
 
   yarn add sass-loader node-sass classnames
 
   yarn add open-color
-
+```
 
 ### 추가 설치
 ```
