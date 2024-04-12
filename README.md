@@ -13,7 +13,7 @@
 
 ### 추가 설치
 ```
-  yarn add react-modal  //팝업창
+yarn add react-modal  //팝업창
 ```
 
 ### webpack 설정 파일 수정
