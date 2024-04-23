@@ -39,3 +39,10 @@ styles: resolveApp('src/style')
 };
 
 ```
+
+
+### gh-page 베포
+```
+  npm run deploy
+
+```

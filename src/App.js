@@ -1,15 +1,17 @@
 import React from 'react';
-import Todo from './components/List/Todo';
-import ReactPlayer from 'react-player';
-import Video from './components/List/Video';
 
-import Videoinfo from './video/video.json';
+import './style/main.css';
+import Body from './components/Body/body';
+import Header from './components/Header/header';
+import Nav from './components/Nav/nav';
+
 
 const App = () => {
-  const video = Videoinfo.slides;
   return (
     <div>
-      <Video data={video}/>
+      <Header/>
+      <Nav/>
+      <Body/>
     </div>
   );
 };

@@ -1,0 +1,50 @@
+
+*{    
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    color: #364152;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.334em;
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+}
+main {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+div {
+    unicode-bidi: isolate;
+}
+
+nav {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+ul{
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+    unicode-bidi: isolate;
+}
+
+button{
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    text-align: center;
+    padding-block: 1px;
+    padding-inline: 6px;
+}
