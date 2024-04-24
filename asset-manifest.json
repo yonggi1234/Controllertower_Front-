@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/yonggi1234/frontend-challenge-project/static/css/main.e751f603.css",
-    "main.js": "/yonggi1234/frontend-challenge-project/static/js/main.0f4304fb.js",
-    "index.html": "/yonggi1234/frontend-challenge-project/index.html",
-    "main.e751f603.css.map": "/yonggi1234/frontend-challenge-project/static/css/main.e751f603.css.map",
-    "main.0f4304fb.js.map": "/yonggi1234/frontend-challenge-project/static/js/main.0f4304fb.js.map"
+    "main.css": "/yonggi1234/Controllertower_Front-/static/css/main.e751f603.css",
+    "main.js": "/yonggi1234/Controllertower_Front-/static/js/main.0f4304fb.js",
+    "index.html": "/yonggi1234/Controllertower_Front-/index.html",
+    "main.e751f603.css.map": "/yonggi1234/Controllertower_Front-/static/css/main.e751f603.css.map",
+    "main.0f4304fb.js.map": "/yonggi1234/Controllertower_Front-/static/js/main.0f4304fb.js.map"
   },
   "entrypoints": [
     "static/css/main.e751f603.css",
