@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Controllertower_Front-/static/css/main.64b43c75.css",
-    "main.js": "/Controllertower_Front-/static/js/main.2b120505.js",
+    "main.js": "/Controllertower_Front-/static/js/main.08268a85.js",
     "index.html": "/Controllertower_Front-/index.html",
     "main.64b43c75.css.map": "/Controllertower_Front-/static/css/main.64b43c75.css.map",
-    "main.2b120505.js.map": "/Controllertower_Front-/static/js/main.2b120505.js.map"
+    "main.08268a85.js.map": "/Controllertower_Front-/static/js/main.08268a85.js.map"
   },
   "entrypoints": [
     "static/css/main.64b43c75.css",
-    "static/js/main.2b120505.js"
+    "static/js/main.08268a85.js"
   ]
 }
