@@ -34,39 +34,20 @@
         </div>
     </div>
     <div class="content">
-        <div class="left_content">
-            <div class="list">
-                <div class="list_header">
-                    <!--<img src="./rec_button.png"/>-->
-                    List
-                </div>
-                <div class="camera_list">
-                    <script>
-                        const list = document.querySelector(".camera_list");
-                        for(i=0;i<50;i++){
-                            let li = document.createElement("div");
-                                li.setAttribute("class","li");
-                                li.innerText = "camera_name"+i;
-                                list.appendChild(li);
-                        }
-                    </script>
-                </div>
+        <div class="warnings">
+            <div class="warning_header">
+                ⚠️ warning
             </div>
-            <div class="warnings">
-                <div class="warning_header">
-                    ⚠️ warning
-                </div>
-                <div class="warning_list">        
-                    <script>
-                        const wlist = document.querySelector(".warning_list");
-                        for(i=0;i<50;i++){
-                            let wli = document.createElement("div");
-                            wli.setAttribute("class","wli");
-                            wli.innerText = "camera_name"+i;
-                            wlist.appendChild(wli);
-                        }
-                    </script>
-                </div>
+            <div class="warning_list">        
+                <script>
+                    const wlist = document.querySelector(".warning_list");
+                    for(i=0;i<50;i++){
+                        let wli = document.createElement("div");
+                        wli.setAttribute("class","wli");
+                        wli.innerText = "camera_name"+i;
+                        wlist.appendChild(wli);
+                    }
+                </script>
             </div>
         </div>
         <div class="screen">
