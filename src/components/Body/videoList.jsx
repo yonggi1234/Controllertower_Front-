@@ -3,27 +3,24 @@ import ReactPlayer from 'react-player';
 import '../../style/videoList.css';
 
 function VideoList({ videos }) {
-  // 정렬 옵션 상태
-  const [sortOption, setSortOption] = useState(null); // null은 기본 정렬을 의미
-  // 선택된 ID 상태
+  
+  const [sortOption, setSortOption] = useState(null);
   const [selectedId, setSelectedId] = useState('');
 
-  // 정렬 함수
   const sortVideos = () => {
     switch (sortOption) {
       case 'id':
-        return [...videos].sort((a, b) => a.id - b.id); // id 오름차순 정렬
+        return [...videos].sort((a, b) => a.id - b.id); 
       case 'date':
-        return [...videos].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // 날짜 최신별 정렬
+        return [...videos].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       default:
-        return videos; // 기본 정렬
+        return videos; 
     }
   };
 
-  // 선택된 ID로 필터링하여 비디오 반환
   const filterVideosById = () => {
-    if (!selectedId) return videos; // 선택된 ID가 없으면 모든 비디오 반환
-    return videos.filter(video => video.id === parseInt(selectedId)); // 선택된 ID와 비디오 ID 비교
+    if (!selectedId) return videos; 
+    return videos.filter(video => video.id === parseInt(selectedId)); 
   };
 
   return (
