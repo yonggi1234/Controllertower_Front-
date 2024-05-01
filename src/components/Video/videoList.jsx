@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-import Modal from 'react-modal';
+// VideoPlayer.js
 
-function VideoList({ videos }) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
+import React from 'react';
+import ReactPlayer from 'react-player';
 
-  const openModal = (url) => {
-    setSelectedVideoUrl(url);
-    setModalIsOpen(true);
-  }
-
-  const closeModal = () => {
-    setSelectedVideoUrl('');
-    setModalIsOpen(false);
-  }
-
+function VideoPlayer({ videos }) {
   return (
     <div>
       <table>
@@ -27,27 +16,18 @@ function VideoList({ videos }) {
         </thead>
         <tbody>
           {videos.map(video => (
-            <tr key={video.id} onClick={() => openModal(video.url)}>
+            <tr key={video.id}>
               <td>{video.title}</td>
               <td>{video.created_at}</td>
               <td>
-                <video controls width="320" height="240">
-                  <source src={video.url} type="video/mp4" />
-                </video>
+                <ReactPlayer url={video.url} controls={true} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-        <button onClick={closeModal}>Close</button>
-        <video controls autoPlay width="640" height="480">
-          <source src={selectedVideoUrl} type="video/mp4" />
-        </video>
-      </Modal>
     </div>
   );
 }
 
-
-export default VideoList;
+export default VideoPlayer;

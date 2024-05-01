@@ -1,181 +1,72 @@
-.header-container{
-    box-shadow: none;
+.header {
+    align-self: flex-start;
+    background-color: rgb(255, 255, 255);
+    width: 100vw;
+    height: 5vh;
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
-    flex-shrink: 0;
-    position: fixed;
-    z-index: 1100;
-    top: 0;
-    left: auto;
-    right: 0;
-    color: inherit;
-    background-color: #ffffff;
-    transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    flex-wrap: wrap;
+    /* border-bottom: 5px solid lightgray; */
 }
-.header-tool{
-    height: 15vh;
-    position: relative;
-    display: flex;  
-    align-items: center;
-    padding: 16px;
-}
-
-@media (min-width: 600px){
-    .header-tool{
-    padding-left: 24px;
-    padding-right: 24px;
-    }
-}
-
-
-        
-.multibox{
-    width: 228px;
+/*================================*/
+.title {
+    width: 20%;
+    height: 70%;
+    margin-left: 3%;
+    margin-top: 1%;
     display: flex;
-}
-.header-logo{
-    color: inherit;
-    padding-right: 30px;
-}
-
-.logo{
-    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    position: relative;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-    background-color: transparent;
-    outline: 0;
-    border: 0;
-    margin: 0;
-    border-radius: 0;
-    padding: 0;
-    cursor: pointer;    
-    user-select: none;
-    vertical-align: middle;
-    text-decoration: none;
-    color: inherit;
-}
 
-
-@media (min-width: 0px) {
-    .header-logo{
-        display: none;
-    }
+    font-size: 1.25em;
+    
 }
-@media (min-width: 900px) {
-    .header-logo{
-        display: block;
-    }
-}
-
-.logo-id{
-    display: inline-flex;
+/*================================*/
+.currtime {
+    width: 20%;
+    height: 8-0%;
+    display: flex;
+    margin-top: 1%;
     align-items: center;
-    justify-content: center;
-    position: relative;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-    background-color: transparent;
-    outline: 0;
-    border: 0;
-    margin: 0;
-    border-radius: 0;
-    padding: 0;
-    cursor: pointer;
+    font-size: medium;
+    color: black;
 }
-
-.logo-text{
-    flex: 1 1 auto;
-    min-width: 0;
-    margin-top: 4px;
-    margin-bottom: 4px;
+/*================================*/
+.buttons {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    padding-left: 30px;
+    align-items: end;
+    justify-content: left;
+    font-size: 0.8em;
 }
-
-.logo-font{
-    margin: 0;
-    font-size: 0.875rem;
-    font-weight: 500;
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.334;
-    color: inherit;
-
-}
-
-
-.hamburger{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-    background-color: transparent;
-    outline: 0;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-    vertical-align: middle;
-    text-decoration: none;
-    color: inherit;
-    border-radius: 12px;
-    overflow: hidden;
-}
- 
-.button-rounded{
-    position: relative;
+.pButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    font-family: 'Roboto', sans-serif;
-    line-height: 1;
-    cursor: pointer;
-    border-radius: 8px;
-    width: 34px;
-    height: 34px;
-    font-size: 1.2rem;
-    transition: all .2s ease-in-out;
-    background: #ede7f6;
-    color: #5e35b1;
+    text-decoration-line: none;
+    width: 30%;
+    height: 50%;
+    margin-left: 2%;
+    border-radius: 0.4rem 0.4rem 0 0;
+    transition-duration: 0.2s;
 }
-svg {
-    width: 92;
-    height: 32;
-    fill: none;
-}
-
-svg:not(:root) {
-    overflow-clip-margin: content-box;
-    overflow: hidden;
-}
-
-@media (min-width: 900px){
-page-1{
-    display: block;
-    }
-}
-
-.page-root{
-    width: 250px;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.4375em;
-    font-family: 'Roboto', sans-serif;
-    color: #364152;
-    box-sizing: border-box;
-    cursor: text;
-    display: inline-flex;
+.pButton:hover {
+    display: flex;
     align-items: center;
-    position: relative;
-    background: #f8fafc;
-    border-radius: 12px 12px 0 0;
-    margin-left: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
-    border: 1px solid rgb(224, 224, 224);
+    justify-content: center;
+    width: 30%;
+    height: 45%;
+    /* margin-left: 1.5%; */
+    margin-bottom: -0.5%;
+    border-radius: 0.4rem 0.4rem 0 0;
+
+    color: white;
 }
+
+.p1{
+    background: rgb(51, 80, 105 );
+}
+.p2{
+    background: rgb(57, 91, 121);
+}
+/*=====================================================*/
