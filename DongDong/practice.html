@@ -49,6 +49,12 @@
         </div>
     </div>
     <div class="content">
+        <input type="checkbox" />
+        <div class="cross">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <div class="left_content">
             <div class="list">
                 <div class="list_header">
@@ -86,7 +92,14 @@
         </div>
         <div class="screen">
             <script>
-                const observer = new ResizeObserver(entries => {
+                function throttle(f, delay) {
+                    let timer = 0;
+                    return function(...args) {
+                        clearTimeout(timer);
+                        timer = setTimeout(() => f.apply(this, args), delay);
+                    }
+                }
+                const observer = new ResizeObserver(throttle((entries) => {
                     for (let entry of entries) {
                         var N=3;
                         var cols = N;
@@ -117,7 +130,7 @@
                             screen.appendChild(vid);
                         }
                     }
-                });
+                },500));
                 observer.observe(document.querySelector(".screen"));
             </script>
         </div>
