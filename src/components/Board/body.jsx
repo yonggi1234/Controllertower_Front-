@@ -1,7 +1,6 @@
 import React from 'react';
 import "../../style/body.css"
 import VideoBoard from './VideoBoard';
-import ScreenRef from './ScreenRef';
 
 function Body() {
 
@@ -9,9 +8,6 @@ function Body() {
     return (
             <div className="screen">
                 <VideoBoard/>
-
-                
-                {/* <ScreenRef/> */}
             </div>
     );
 }

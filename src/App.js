@@ -1,6 +1,7 @@
 import React from 'react';
 import './style/main.css';
 import './style/common.css';
+
 import Body from './components/Board/body';
 import Header from './components/Header/header';
 import Footer from './components/Footer/footer';
@@ -15,9 +16,14 @@ const App = () => {
   return (
     <BrowserRouter>
       <div>
-        <SSE/>
         {/* <Header/>
         <div className="content">
+        <input type="checkbox" />
+        <div class="cross">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
           <Nav/>
         <Routes>
           <Route path="/" element={ <Body /> } />
@@ -25,9 +31,9 @@ const App = () => {
         </Routes>
         </div>
         <Footer/> */}
+        <SSE/>
         {/* <Video/> */}
         {/* <Event/> */}
-        {/* <SSE/> */}
       </div>
     </BrowserRouter>
   );

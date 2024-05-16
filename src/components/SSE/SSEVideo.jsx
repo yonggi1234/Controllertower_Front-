@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { fetchVideos } from '../Fetch/fetchVideo';
-import SSEListener from './SSEListiner'; // 오타 수정: SSEListiner -> SSEListener
+import '../../style/nav.css';
+
+import SSEListener from './SSEListiner';
+import Nav from '../Nav/nav';
 
 function SSEVideo() {
   const [videos, setVideos] = useState([]);
@@ -12,8 +15,9 @@ function SSEVideo() {
   }, []);
 
   return (
-    <div style={{backgroundColor:'white'}}>
-      <SSEListener videos={videos} /> 
+    <div className='cont'>
+      {/* <Nav videos={videos} />  */}
+      {/* <SSEListener videos={videos} />  */}
     </div>
   );
 }
