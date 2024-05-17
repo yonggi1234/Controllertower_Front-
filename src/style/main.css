@@ -78,7 +78,7 @@ button{
     border: none;
 }
 /* 세로 */
-@media screen and (orientation: portrait) {
+@media (max-width: 576px){
     .left_content {
         width: 0;
         transition-duration: 0.2s;

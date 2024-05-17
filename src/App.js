@@ -16,7 +16,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <div>
-        {/* <Header/>
+        <Header/>
         <div className="content">
         <input type="checkbox" />
         <div class="cross">
@@ -27,11 +27,11 @@ const App = () => {
           <Nav/>
         <Routes>
           <Route path="/" element={ <Body /> } />
+        
           <Route path="/video" element={ <Video /> } />
         </Routes>
         </div>
-        <Footer/> */}
-        <SSE/>
+        <Footer/>
         {/* <Video/> */}
         {/* <Event/> */}
       </div>
