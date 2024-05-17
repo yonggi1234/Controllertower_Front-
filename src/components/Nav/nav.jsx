@@ -13,9 +13,23 @@ const WarningListItem = ({ warning }) => (
 );
 
 const Nav = () => {
+    const [cameraList, setCameraList] = useState([]);
     const [warnings, setWarnings] = useState([]);
 
     useEffect(() => {
+        // Fetching camera data
+        fetch('https://gamst.omoknooni.link/camera/')
+            .then(response => response.json())
+            .then(data => {
+                const { results } = data;
+                // Extracting camera names
+                const cameras = results.map(result => result.name);
+                // Setting camera list
+                setCameraList(cameras);
+            })
+            .catch(error => console.error('Error fetching camera data:', error));
+
+        // Setting up event sources for warnings
         const warningURLs = Array.from({ length: 10 }, (_, i) => `https://gamst.omoknooni.link/video/${i + 1}/stream/`);
 
         warningURLs.forEach(url => {
@@ -39,6 +53,7 @@ const Nav = () => {
         });
 
         return () => {
+            // Closing event sources
             warningURLs.forEach(url => {
                 const eventSource = new EventSource(url);
                 eventSource.close();
@@ -53,8 +68,13 @@ const Nav = () => {
                     <p>🎞️VIDEOS</p>
                 </div>
                 <div className="camera_list" id="cameraList">
+                    {/* Rendering camera list */}
+                    {cameraList.map((camera, index) => (
+                        <CameraListItem key={index} cameraName={camera} />
+                    ))}
+                    {/* 추가된 부분 */}
                     {[...Array(10)].map((_, i) => (
-                        <CameraListItem key={i} cameraName={`camera_name${i}`} />
+                        <CameraListItem key={i + cameraList.length} cameraName={`camera_name${i}`} />
                     ))}
                 </div>
                 
@@ -65,8 +85,9 @@ const Nav = () => {
                     <p>⚠️ warning</p>
                 </div>
                 <div className="warning_list" id="cameraList">
-                    {warnings.map((warning, i) => (
-                        <WarningListItem key={i} warning={`Warning for video ${warning.video_id}`} />
+                    {/* Rendering warnings */}
+                    {warnings.map((warning, index) => (
+                        <WarningListItem key={index} warning={`Warning for video ${warning.video_id}`} />
                     ))}
                 </div>
             </div>
