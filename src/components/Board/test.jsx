@@ -6,15 +6,13 @@ function LocalVideoPlayer() {
     const screenRef = useRef(null);
     const [streamUrl, setStreamUrl] = useState('');
     const [videoFiles, setVideoFiles] = useState([
-        'assault_142.mp4', 
-        'assault_142.mp4', 
-        'assault_142.mp4', 
-        'assault_142.mp4', 
-        'assault_142.mp4', 
-        'assault_142.mp4', 
-        'assault_142.mp4', 
-        'assault_142.mp4', 
-        'assault_142.mp4'
+        'a.mp4',
+        'a.mp4',
+        'a.mp4',
+        'a.mp4',
+        'a.mp4',
+        'a.mp4',
+        'a.mp4'
     ]);
 
     useEffect(() => {
@@ -61,16 +59,17 @@ function LocalVideoPlayer() {
         <div className="content">
             <div className="screen" ref={screenRef}>
                 
-                {/* {streamUrl && (
-                    <ReactPlayer
-                        key="stream"
-                        url={streamUrl}
-                        playing
-                        controls={false}
-                        width="100%"
-                        height="auto"
-                    />
-                )} */}
+                {streamUrl && (
+                    // <ReactPlayer
+                    //     key="stream"
+                    //     url={streamUrl}
+                    //     playing
+                    //     controls={false}
+                    //     width="100%"
+                    //     height="auto"
+                    // />
+                    <img src={streamUrl} controls autoPlay />
+                )}
 
                 {videoFiles.map((fileName, index) => (
                     <video
@@ -79,8 +78,8 @@ function LocalVideoPlayer() {
                         autoPlay
                         muted
                         width="100%"
-                        height="auto"
-                        src={require(`../../source/${fileName}`)}
+                        height="30px"
+                        src={require(`../source/${fileName}`)}
                         type="video/mp4"
                     />
                 ))}

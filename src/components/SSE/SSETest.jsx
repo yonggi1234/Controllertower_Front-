@@ -5,7 +5,7 @@ const SSEListener = ({ videos }) => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    const videoIds = Array.from({length: 10}, (_, index) => index + 1);
+    const videoIds = Array.from({length: 11}, (_, index) => index + 1);
     const eventSources = videoIds.map(id => new EventSource(`https://gamst.omoknooni.link/video/${id}/stream/`));
 
     eventSources.forEach((eventSource, index) => {
@@ -61,7 +61,7 @@ const SSEListener = ({ videos }) => {
       
       {events.map((event, index) => {
         // 이벤트의 video_id와 비디오 목록의 id를 비교하여 일치하는 경우 해당 비디오의 URL로 비디오 재생
-        const matchedVideo = videos.find(video => video.id === event.video_id);
+        const matchedVideo = videos.find(video => video.id === event.video_id && video.id === 11);
         if (matchedVideo) {
           return (
             <div key={index}>

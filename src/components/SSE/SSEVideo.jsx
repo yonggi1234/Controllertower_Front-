@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { fetchVideos } from '../Fetch/fetchVideo';
 import SSEListener from './SSEListiner';
+import ST from './SSETest';
 import '../../style/nav.css';
 
-import Nav from '../Nav/nav';
 
 function SSEVideo() {
   const [videos, setVideos] = useState([]);
@@ -16,7 +16,8 @@ function SSEVideo() {
 
   return (
     <div className='cont'>
-      <SSEListener videos={videos} /> 
+      {/* <SSEListener videos={videos} />  */}
+      <ST videos={videos} /> 
     </div>
   );
 }

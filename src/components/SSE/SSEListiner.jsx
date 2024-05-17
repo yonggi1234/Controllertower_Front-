@@ -12,7 +12,6 @@ const SSEListener = () => {
       
       // URL 출력
       console.log('Received video URL:', eventData.section_video_url); 
-      
       await downloadAndPlayVideo(eventData.section_video_url);
     };
 

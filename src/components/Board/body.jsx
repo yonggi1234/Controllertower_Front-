@@ -8,8 +8,8 @@ function Body() {
     
     return (
             <div className="screen">
-                <SSE/>
-                {/* <VideoBoard/> */}
+                {/* <SSE/> */}
+                <VideoBoard/>
             </div>
     );
 }

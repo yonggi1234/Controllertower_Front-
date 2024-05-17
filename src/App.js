@@ -27,7 +27,6 @@ const App = () => {
           <Nav/>
         <Routes>
           <Route path="/" element={ <Body /> } />
-        
           <Route path="/video" element={ <Video /> } />
         </Routes>
         </div>
