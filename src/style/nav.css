@@ -7,7 +7,7 @@
 
 .left_content {
     height: 100%;
-    width: 25%;
+    width: 15%;
     display: flex;
     flex-wrap: wrap;
     padding-left: 8px;
@@ -197,3 +197,5 @@
     color: rgb(94, 53, 177);
     border-radius: 0.7rem;
 }
+
+

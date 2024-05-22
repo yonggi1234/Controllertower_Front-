@@ -9,7 +9,7 @@
 /*================================*/
 .screen {
     height: 100%;
-    width: 65%;
+    width: 75%;
     background-color: inherit;
 
 
@@ -32,14 +32,15 @@
 .select-container{
     position: relative;
     /* padding: 30px 30px 15px 30px; */
-    padding-left: 30px;
+    /* padding-left: 30px; */
 }
 .select{
     align-items: center;
     display: flex;
+    margin: auto;
     border-radius: 0.3rem;
     padding: 10px  0 10px 0;
-    width: 100%;
+    width: 70   %;
     height: 100%;
     /* background-color: #cfe1e4;    */
 
@@ -85,3 +86,5 @@
     transform: translateY(-50%);
     pointer-events: none;
   }
+
+ 

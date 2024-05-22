@@ -17,6 +17,7 @@
 ```
 yarn add react-modal      //팝업창
 yarn add react-router-dom //route
+yarn add react-icons --save
 ```
 
 

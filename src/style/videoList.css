@@ -1,9 +1,15 @@
 .container {
-    padding-left: 30px;
-    max-height: 700px; 
+    
+    max-height: 800px; 
     overflow-y: auto;
+    width: 70%;
   }
   
+   
+  .table-container{
+    width: 80%;
+  }
+
 .rwd-table {
     margin: auto;
     min-width: 300px;
@@ -11,6 +17,7 @@
     border-collapse: collapse;
     max-height: 600px;
     overflow-y: auto; 
+    width: 100%;
 }
 
 .container::-webkit-scrollbar {
@@ -116,5 +123,3 @@
     padding: 1em !important;
   }
 }
-
-

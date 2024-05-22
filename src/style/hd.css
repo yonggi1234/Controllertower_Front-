@@ -1,0 +1,153 @@
+.hd-container {
+    width: 100vw;
+    height: 4%;
+    background-color: #232323;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+.box{
+    width: 50%;
+}
+
+/*================================*/
+.buttons {
+    display: flex;
+    width: 30%;
+    height: 100%;
+    align-items: center;
+    font-size: 0.8em;
+}
+
+.pButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: auto;
+    height: 50%;
+    margin-left: 20px;
+    padding: 4px;
+    border: 1px solid white;
+    transition-duration: 0.2s;
+}
+
+.pButton:hover {
+    margin-bottom: -0.5%;
+    border-radius: 0.4rem 0.4rem 0 0;
+    color: white;
+}
+
+.p1 {
+    /* background: rgb(51, 80, 105); */
+}
+
+.p2 {
+    /* background: rgb(57, 91, 121); */
+}
+
+/*=====================================================*/
+
+.checkbox {
+    margin: 0;
+    padding: 2px;
+    width: 4%;
+    height: 3%;
+    top: -7px;
+    left: -5px;
+    cursor: pointer;
+    z-index: 2;
+    -webkit-touch-callout: none;
+    opacity: 0; /* hide this */
+    display: none;
+}
+.content .cross {
+    display: none;
+    width: 100%;
+    height: 3%;
+    padding: 2px;
+    padding-top: 5px;
+    background-color: black;
+    transition-duration: 0.2s;
+    border: none;
+}
+/* 세로 */
+@media screen and (orientation: portrait) {
+    .left_content {
+        width: 0;
+        transition-duration: 0.2s;
+    }
+    .content {
+        position: relative;
+    }
+    .content input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+    }
+    .screen {
+        width: 100%;
+    }
+    /*====================================*/
+    .content .cross {
+        display: block;
+    }
+
+    .content .cross span {
+        display: block;
+        width: 4%;
+        height: 15%;
+        margin-bottom: 2px;
+        position: relative;
+        
+        background: white;
+        border-radius: 4px;
+
+        transform-origin: 0% 4%;
+        transition-duration: 0.5s;
+        opacity: 1;
+    }
+
+    .content .cross span:first-child {
+        transform-origin: 0% 0%;
+    }
+
+    .content .cross span:nth-last-child(3) {
+        transform-origin: 0% 100%;
+    }
+
+    .content input:checked ~ .cross {
+        background-color: white;
+    }
+
+    /* turn em into crossmark */
+    .content input:checked ~ .cross span {
+        transform: rotate(-90deg) scale(0.4,3);
+        background: red;
+    }
+
+    /* hide the middle */
+    .content input:checked ~ .cross span:nth-last-child(2) {
+        transform: rotate(0deg) scale(3.6, 1);
+        background: #232323;
+    }
+    /* other direction */
+    .content input:checked ~ .cross span:nth-last-child(3) {
+        transform: rotate(90deg) scale(0.4,3);
+    }
+
+    /*====================================*/
+
+    .content input:checked ~.left_content {
+        /* 
+        position: absolute 
+        */
+        transition-duration: 0.2s;
+        width: 15%;
+    }
+    .content input:checked ~.screen {
+        width: 85%;
+    }
+}

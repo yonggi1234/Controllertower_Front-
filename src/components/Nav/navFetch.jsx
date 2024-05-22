@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../style/nav.css';
 
 const CameraListItem = ({ cameraName }) => (
     <div className="li">
@@ -17,7 +18,7 @@ const Nav = () => {
     const [warnings, setWarnings] = useState([]);
 
     useEffect(() => {
-        // camera Fetch - 처음 접속 시 한 번만 데이터를 가져옴
+        // camera Fetch
         fetch('https://gamst.omoknooni.link/camera/')
             .then(response => response.json())
             .then(data => {
@@ -26,34 +27,24 @@ const Nav = () => {
                 setCameraList(cameras);
             })
             .catch(error => console.error('Error fetching camera data:', error));
-    }, []); 
 
-    useEffect(() => {
-        // video Fetch - 지속적으로 데이터 스트림을 수신함
-        const warningURLs = Array.from({ length: 2 }, (_, i) => `https://gamst.omoknooni.link/video/${i + 1}/stream/`);
-        const eventSources = warningURLs.map(url => new EventSource(url));
+        // video Fetch
+        const warningURLs = Array.from({ length: 6 }, (_, i) => `https://gamst.omoknooni.link/video/${i + 1}/risk/`);
 
-        eventSources.forEach(eventSource => {
-            eventSource.onmessage = (event) => {
-                const eventData = JSON.parse(event.data);
-                const { id, video_id, start_frame, end_frame, created_at } = eventData;
-                const datetime = created_at.split(/[- :]/).map((item) => parseInt(item));
-
-                const newEvent = {
-                    id: id,
-                    video_id: video_id,
-                    start_frame: start_frame,
-                    end_frame: end_frame,
-                    datetime: datetime
-                };
-
-                setWarnings(prevWarnings => [...prevWarnings, newEvent]);
-            };
+        warningURLs.forEach(url => {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.results) {
+                        const videoWarnings = data.results.map(result => `Warning for video ${result.video}`);
+                        setWarnings(prevWarnings => [...prevWarnings, ...videoWarnings]);
+                    } else {
+                        console.error('Invalid video data:', data);
+                    }
+                })
+                .catch(error => console.error('Error fetching video data:', error));
         });
 
-        return () => {
-            eventSources.forEach(eventSource => eventSource.close());
-        };
     }, []);
 
     return (
@@ -69,10 +60,9 @@ const Nav = () => {
                     ))}
                     {/* video 리스트 */}
                     {[...Array(6)].map((_, i) => (
-                        <CameraListItem key={i + cameraList.length} cameraName={`camera_name${i+1}`} />
+                        <CameraListItem key={i + cameraList.length} cameraName={`camera_name${i + 1}`} />
                     ))}
                 </div>
-                
             </div>
             <hr className='divider'/>
             <div className="warnings">
@@ -82,7 +72,7 @@ const Nav = () => {
                 <div className="warning_list" id="cameraList">
                     {/* Warning List */}
                     {warnings.map((warning, index) => (
-                        <WarningListItem key={index} warning={`Warning for video ${warning.video_id}`} />
+                        <WarningListItem key={index} warning={warning} />
                     ))}
                 </div>
             </div>
