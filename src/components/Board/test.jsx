@@ -34,17 +34,12 @@ function LocalVideoPlayer() {
             const screen = screenRef.current;
             if (!screen) return;
 
-<<<<<<< HEAD
             const screenboxWidth = screen.clientWidth;
             const screenboxHeight = screen.clientHeight;
-=======
-            const videos = screen.querySelectorAll('video');
->>>>>>> origin/yonggi
 
             const cols = 3;
             const rows = 2; 
             
-<<<<<<< HEAD
             const width = (screenboxWidth - 20) / cols - 2 * cols; 
             const height = (screenboxHeight - 20) / rows - 2 * rows;
 
@@ -53,18 +48,6 @@ function LocalVideoPlayer() {
             videos.forEach(video => {
                 video.style.width = `${width}px`;
                 video.style.height = `${height}px`;
-=======
-            const width=(screen.getBoundingClientRect().width-20)/(cols)-2*(cols); 
-            const height=(screen.getBoundingClientRect().height-20)/(rows)-2*(rows);
-
-
-
-
-            videos.forEach(video => {
-                video.style.width = `${width}px`;
-                video.style.height = `${height}px
-                `;
->>>>>>> origin/yonggi
             });
         };
 
@@ -87,15 +70,6 @@ function LocalVideoPlayer() {
     return (
         <div className="content">
             <div className="screen" ref={screenRef}>
-<<<<<<< HEAD
-=======
-                {/* <video src="https://omoknooni-gamst-video.s3.amazonaws.com/clip/output_240522162121"></video> */}
-                {/* {streamUrl && (
-                )} */}
-                {/* <img src={'http://52.79.81.216:7500/stream.mjpg'} controls autoPlay /> */}
-                
-
->>>>>>> origin/yonggi
                 {videoFiles.map((fileName, index) => (
                     <video
                         className='local-video'

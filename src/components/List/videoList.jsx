@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
 import Modal from 'react-modal';
-<<<<<<< HEAD
 import ListPopup from './ListPopup';
 
 Modal.setAppElement('#root');
-=======
-import { MdClose } from 'react-icons/md'; 
-
-Modal.setAppElement('#root'); 
->>>>>>> origin/yonggi
 
 function VideoList({ videos }) {
   const [sortOption, setSortOption] = useState(null);
@@ -66,11 +60,7 @@ function VideoList({ videos }) {
   const sortedVideos = sortVideos(sortOption);
 
   return (
-<<<<<<< HEAD
     <div className='list-container'>
-=======
-    <div>
->>>>>>> origin/yonggi
       <div className="select-container">
         <div className="select">
           <div className="dropdown">
@@ -136,30 +126,19 @@ function VideoList({ videos }) {
             bottom: 'auto',
             marginRight: '-50%',
             transform: 'translate(-50%, -50%)',
-<<<<<<< HEAD
             width: '800px', 
             height: '600px',
             backgroundColor: 'black', 
             display: 'flex',
             flexDirection: 'column', 
-=======
-            width: '31%', // 모달의 너비를 조정합니다.
-            height: '40%' // 모달의 높이를 조정합니다.
->>>>>>> origin/yonggi
           }
         }}
         overlayClassName="custom-modal-overlay"
         closeTimeoutMS={200}
         shouldCloseOnOverlayClick={true}
       >
-<<<<<<< HEAD
         {selectedVideo && (
           <ListPopup videoUrl={selectedVideo.url} onClose={closeModal} />
-=======
-        <div className="modal-close" onClick={closeModal}><MdClose style={{ fontSize: '32px', cursor: 'pointer' }} /></div>
-        {selectedVideo && (
-          <ReactPlayer url={selectedVideo.url} controls={true} style={{ width: '100%', height: '100%' }} />
->>>>>>> origin/yonggi
         )}
       </Modal>
     </div>
