@@ -3,22 +3,20 @@
     height: 100vh;
     display: flex;
     flex-wrap: wrap;
-    
+    background-color: rgb(34, 33, 39);
 }
 
 /*================================*/
 .screen {
     height: 100%;
-    width: 65%;
+    width: 75%;
     background-color: inherit;
-
-
-    border-radius: 0.3rem;
-    padding: 10px 0 0 10px;
+    
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
+
 .screenImage {
     background-color: inherit;
     padding: 0 0.5px 5px 0;
@@ -27,61 +25,31 @@
     background-color: black;
 }
 
+.screenbox {
+    height: 100%;
+    width: 80%;
+    background-color: inherit;
+
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.screenbox video{
+    height: 30%;
+    weight: 30%;
+}
+
+
+ 
 /*================================*/
 
-.select-container{
-    position: relative;
-    /* padding: 30px 30px 15px 30px; */
-    padding-left: 30px;
-}
-.select{
-    align-items: center;
-    display: flex;
-    border-radius: 0.3rem;
-    padding: 10px  0 10px 0;
-    width: 100%;
-    height: 100%;
-    /* background-color: #cfe1e4;    */
-
-}
-.checkbox-group{
-    width: 40%;
-    padding-left: 60px;
-    color: white;
-    font-size: 15px;
+  .local-video {
+    transition: border 0.3s ease;
 }
 
-.checkbox-group label{
-    padding-left: 3%;
-    padding-top: 10px;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-    width: 210px;
-  }
-  
-  .dropdown select {
-    appearance: none;
-    width: 200px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border: 30px;
-    border-radius: 5px;
-    background-color: #fff;
+.local-video:hover {
+    border: 3px solid red;
     cursor: pointer;
-  }
-  
-  .dropdown select:focus {
-    outline: none;
-  }
-  
-  .dropdown::after {
-    content: '\25BC'; /* 화살표 모양 */
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
+}

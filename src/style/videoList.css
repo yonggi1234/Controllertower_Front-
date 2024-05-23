@@ -1,9 +1,82 @@
+.list-container{
+  width: 100%;
+  float: left;
+}
+
 .container {
-    padding-left: 30px;
-    max-height: 700px; 
+    
+    max-height: 800px; 
     overflow-y: auto;
+    width: 70%;
   }
   
+   
+/*================================*/
+
+.select-container{
+  /* position: relative; */
+  /* padding: 30px 30px 15px 30px; */
+  /* padding-left: 30px; */
+}
+.select{
+  align-items: center;
+  display: flex;
+  border-radius: 0.3rem;
+  padding: 10px  0 10px 0;
+  width: 70%;
+  height: 100%;
+  /* background-color: #cfe1e4;    */
+
+}
+.checkbox-group{
+  width: 40%;
+  padding-left: 60px;
+  color: white;
+  font-size: 15px;
+}
+
+.checkbox-group label{
+  padding-left: 3%;
+  padding-top: 10px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 210px;
+}
+
+.dropdown select {
+  appearance: none;
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border: 30px;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.dropdown select:focus {
+  outline: none;
+}
+
+.dropdown::after {
+  content: '\25BC'; /* 화살표 모양 */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/*================================*/
+
+  .table-container{
+    width: 80%;
+    float: left;
+  }
+
 .rwd-table {
     margin: auto;
     min-width: 300px;
@@ -11,6 +84,7 @@
     border-collapse: collapse;
     max-height: 600px;
     overflow-y: auto; 
+    width: 100%;
 }
 
 .container::-webkit-scrollbar {
@@ -116,5 +190,3 @@
     padding: 1em !important;
   }
 }
-
-
