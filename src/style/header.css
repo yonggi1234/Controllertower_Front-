@@ -10,11 +10,7 @@
 }
 /*================================*/
 .title {
-<<<<<<< HEAD
     width: 40%;
-=======
-    width: 50%;
->>>>>>> origin/yonggi
     height: 70%;
     /* margin-top: 1%; */
     display: flex;
@@ -25,19 +21,13 @@
 }
 /*================================*/
 .currtime {
-<<<<<<< HEAD
     width: 30%;
     height: 80%;
-=======
-    width: 35%;
-    height: 8-0%;
->>>>>>> origin/yonggi
     display: flex;
     margin-top: 1%;
     
     text-align: right;
     font-size: medium;
-<<<<<<< HEAD
     color: rgb(198, 197, 196);
     
 }
@@ -86,8 +76,3 @@
 .p2 {
     /* background: rgb(57, 91, 121); */
 }
-=======
-    color: black;
-    align: right;
-}
->>>>>>> origin/yonggi
