@@ -4,7 +4,7 @@ import '../../style/footer.css';
 function Footer() {
     return (
         <footer>
-            this is footer
+            {/* this is footer */}
         </footer>
     );
 }

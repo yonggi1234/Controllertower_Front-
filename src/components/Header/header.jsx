@@ -21,17 +21,21 @@ function Header() {
             <div className="title">
                 this is Title
             </div>
+            
             <div className="buttons">
                 <div className="pButton p1">
-                    <Link to= "/">Home</Link>
+                    <Link to="/">Home</Link>
                 </div>
                 <div className="pButton p2">
-                    <Link to= "/video">List</Link>
+                    <Link to="/video">List</Link>
                 </div>
             </div>
+            
+
             <div className="currtime">
                 {currentTime}
             </div>
+            
         </div>
     );
 }
