@@ -51,13 +51,6 @@ const SSEListener = ({ videos }) => {
 
   return (
     <div>
-      {/* 비디오 목록 확인 */}
-      {/* {videos.map(video => (
-        <div key={video.id}>
-          <p>ID: {video.id}</p>
-          <p>URL: {video.url}</p>
-        </div>
-      ))} */}
       
       {events.map((event, index) => {
         // 이벤트의 video_id와 비디오 목록의 id를 비교하여 일치하는 경우 해당 비디오의 URL로 비디오 재생
