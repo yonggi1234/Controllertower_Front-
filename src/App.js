@@ -4,12 +4,14 @@ import './style/common.css';
 
 import Body from './components/Board/body';
 import Header from './components/Header/header';
+import HD from './components/header-bottom/headerBottom';
 import Footer from './components/Footer/footer';
-import Nav from './components/Nav/nav';
+// import Nav from './components/Nav/nav';
+import Nav from './components/Nav/navFetch';
 import { BrowserRouter,Route, Routes } from 'react-router-dom';
 
+
 import Video from './components/List/Video';
-import SSE from './components/SSE/SSEVideo';
 
 const App = () => {
   
@@ -18,12 +20,8 @@ const App = () => {
       <div>
         <Header/>
         <div className="content">
-        <input type="checkbox" />
-        <div class="cross">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+
+          <HD/>
           <Nav/>
         <Routes>
           <Route path="/" element={ <Body /> } />
