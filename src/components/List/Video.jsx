@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { fetchVideos } from '../Fetch/fetchVideo';
 import VideoList from './videoList';
 
+import '../../style/videoList.css';
+
 function Video() {
   const [videos, setVideos] = useState([]);
 
@@ -12,7 +14,7 @@ function Video() {
   }, []);
 
   return (
-    <div>
+    <div  className='table-container'>
       <VideoList videos={videos} />
     </div>
   );

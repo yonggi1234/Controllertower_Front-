@@ -1,19 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ReactPlayer from 'react-player';
 import axios from 'axios';
+import VideoPopup from './Popup'; 
+import '../../style/body.css'; 
 
 function LocalVideoPlayer() {
     const screenRef = useRef(null);
     const [streamUrl, setStreamUrl] = useState('');
     const [videoFiles, setVideoFiles] = useState([
-        'a.mp4',
-        'a.mp4',
-        'a.mp4',
-        'a.mp4',
-        'a.mp4',
-        'a.mp4',
-        'a.mp4'
+        'fight_148.mp4',
+        'fight_149.mp4',
+        'datefight_24.mp4',
+        'fight_150.mp4',
+        'fight_151.mp4',
+        'kidnap_5.mp4'
     ]);
+    const [popupVideoUrl, setPopupVideoUrl] = useState(null);
 
     useEffect(() => {
         // URL에서 스트림 데이터 가져오기
@@ -33,17 +34,20 @@ function LocalVideoPlayer() {
             const screen = screenRef.current;
             if (!screen) return;
 
-            const videos = screen.querySelectorAll('video');
-            const N = 4;
-            const cols = N;
-            const rows = Math.ceil(videos.length / cols);
+            const screenboxWidth = screen.clientWidth;
+            const screenboxHeight = screen.clientHeight;
 
-            const screenWidth = screen.getBoundingClientRect().width;
-            const videoWidth = screenWidth / cols;
+            const cols = 3;
+            const rows = 2; 
+            
+            const width = (screenboxWidth - 20) / cols - 2 * cols; 
+            const height = (screenboxHeight - 20) / rows - 2 * rows;
+
+            const videos = screen.querySelectorAll('video');
 
             videos.forEach(video => {
-                video.style.width = `${videoWidth}px`;
-                video.style.height = 'auto';
+                video.style.width = `${width}px`;
+                video.style.height = `${height}px`;
             });
         };
 
@@ -55,35 +59,33 @@ function LocalVideoPlayer() {
         };
     }, []);
 
+    const handleVideoClick = (src) => {
+        setPopupVideoUrl(src);
+    };
+
+    const handleClosePopup = () => {
+        setPopupVideoUrl(null);
+    };
+
     return (
         <div className="content">
             <div className="screen" ref={screenRef}>
-                
-                {streamUrl && (
-                    // <ReactPlayer
-                    //     key="stream"
-                    //     url={streamUrl}
-                    //     playing
-                    //     controls={false}
-                    //     width="100%"
-                    //     height="auto"
-                    // />
-                    <img src={streamUrl} controls autoPlay />
-                )}
-
                 {videoFiles.map((fileName, index) => (
                     <video
+                        className='local-video'
                         key={index}
                         controls={false}
                         autoPlay
                         muted
-                        width="100%"
-                        height="30px"
-                        src={require(`../source/${fileName}`)}
+                        src={require(`../../source/${fileName}`)}
                         type="video/mp4"
+                        onClick={() => handleVideoClick(require(`../../source/${fileName}`))}
                     />
                 ))}
             </div>
+            {popupVideoUrl && (
+                <VideoPopup videoUrl={popupVideoUrl} onClose={handleClosePopup} />
+            )}
         </div>
     );
 }
