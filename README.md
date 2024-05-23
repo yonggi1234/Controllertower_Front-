@@ -17,7 +17,11 @@
 ```
 yarn add react-modal      //팝업창
 yarn add react-router-dom //route
+<<<<<<< HEAD
 yarn add react-icons   //아이콘
+=======
+yarn add react-icons --save
+>>>>>>> origin/yonggi
 ```
 
 

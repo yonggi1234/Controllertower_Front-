@@ -1,7 +1,11 @@
 .hd-container {
     width: 100vw;
     height: 4%;
+<<<<<<< HEAD
     background-color: rgb(34, 33, 39);
+=======
+    background-color: #232323;
+>>>>>>> origin/yonggi
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -11,6 +15,44 @@
     width: 50%;
 }
 
+<<<<<<< HEAD
+=======
+/*================================*/
+.buttons {
+    display: flex;
+    width: 30%;
+    height: 100%;
+    align-items: center;
+    font-size: 0.8em;
+}
+
+.pButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: auto;
+    height: 50%;
+    margin-left: 20px;
+    padding: 4px;
+    border: 1px solid white;
+    transition-duration: 0.2s;
+}
+
+.pButton:hover {
+    margin-bottom: -0.5%;
+    border-radius: 0.4rem 0.4rem 0 0;
+    color: white;
+}
+
+.p1 {
+    /* background: rgb(51, 80, 105); */
+}
+
+.p2 {
+    /* background: rgb(57, 91, 121); */
+}
+>>>>>>> origin/yonggi
 
 /*=====================================================*/
 

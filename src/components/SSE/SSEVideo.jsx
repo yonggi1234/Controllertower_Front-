@@ -16,8 +16,8 @@ function SSEVideo() {
 
   return (
     <div className='cont'>
-      {/* <SSEListener videos={videos} />  */}
-      <ST videos={videos} /> 
+      <SSEListener videos={videos} /> 
+      {/* <ST videos={videos} />  */}
     </div>
   );
 }

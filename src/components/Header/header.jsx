@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import "../../style/header.css";
 
 function Header() {
@@ -22,6 +22,7 @@ function Header() {
                 this is Title
             </div>
             
+<<<<<<< HEAD
             <div className="buttons">
                 <div className="pButton p1">
                     <Link to="/">Home</Link>
@@ -32,6 +33,8 @@ function Header() {
             </div>
             
 
+=======
+>>>>>>> origin/yonggi
             <div className="currtime">
                 {currentTime}
             </div>
