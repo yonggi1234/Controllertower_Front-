@@ -77,14 +77,16 @@ body{
     height: 85vh;
     display: flex;
     flex-wrap: wrap;
+    position: relative;
 }
 
 /*================================*/
 .left_content {
     height: 100%;
-    width: 15%;
+    width: 0;
     display: flex;
     flex-wrap: wrap;
+    transition-duration: 0.2s;
 }
 /*================================*/
 .list {
@@ -189,7 +191,7 @@ body{
 /*================================*/
 .screen {
     height: 100%;
-    width: 85%;
+    width: 100%;
     background-color: rgb(24, 24, 24);
     display: flex;
     flex-wrap: wrap;
@@ -203,11 +205,11 @@ body{
 .content input {
     margin: 0;
     padding: 2px;
-    display: none;
+    display: block;
     width: 4%;
     height: 3%;
-    top: -7px;
-    left: -5px;
+    top: 0;
+    left: 0;
     
     cursor: pointer;
     
@@ -216,9 +218,11 @@ body{
     opacity: 0; /* hide this */
     
     -webkit-touch-callout: none;
+    
+    position: absolute;
 }
 .content .cross {
-    display: none;
+    display: block;
     width: 100%;
     height: 3%;
     padding: 2px;
@@ -227,29 +231,22 @@ body{
     transition-duration: 0.2s;
     border: none;
 }
-/* 세로 */
-@media screen and (orientation: portrait) {
-    .left_content {
-        width: 0;
-        transition-duration: 0.2s;
-    }
-    .content {
-        position: relative;
-    }
-    .content input {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-    }
-    .screen {
-        width: 100%;
-    }
-    /*====================================*/
-    .content .cross {
-        display: block;
-    }
+.content .close {
+    margin: 0;
+    padding: 2px;
+    width: 4%;
+    height: 3%;
+    top: 0;
+    left: 0;
+    display: none;
 
+    position: absolute;
+    margin-left: 11%;
+}
+/* 세로 */
+@media screen {
+    /*====================================*/
+    /* 햄버거 버튼 디자인 */
     .content .cross span {
         display: block;
         width: 4%;
@@ -260,17 +257,17 @@ body{
         background: white;
         border-radius: 4px;
 
-        transform-origin: 0% 4%;
         transition-duration: 0.5s;
         opacity: 1;
     }
 
-    .content .cross span:first-child {
-        transform-origin: 0% 0%;
+    .content input:checked ~ .close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-
-    .content .cross span:nth-last-child(3) {
-        transform-origin: 0% 100%;
+    .content input:checked {
+        margin-left: 11%;
     }
 
     .content input:checked ~ .cross {
@@ -279,18 +276,8 @@ body{
 
     /* turn em into crossmark */
     .content input:checked ~ .cross span {
-        transform: rotate(-90deg) scale(0.4,3);
-        background: red;
-    }
-
-    /* hide the middle */
-    .content input:checked ~ .cross span:nth-last-child(2) {
-        transform: rotate(0deg) scale(3.6, 1);
-        background: #232323;
-    }
-    /* other direction */
-    .content input:checked ~ .cross span:nth-last-child(3) {
-        transform: rotate(90deg) scale(0.4,3);
+        transform: rotate(0deg) scale(0.4,3);
+        opacity: 0;
     }
 
     /*====================================*/
