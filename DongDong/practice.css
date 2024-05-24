@@ -234,14 +234,12 @@ body{
 .content .close {
     margin: 0;
     padding: 2px;
-    width: 4%;
+    width: 0%;
     height: 3%;
     top: 0;
     left: 0;
-    display: none;
 
     position: absolute;
-    margin-left: 11%;
 }
 /* 세로 */
 @media screen {
@@ -257,21 +255,21 @@ body{
         background: white;
         border-radius: 4px;
 
-        transition-duration: 0.5s;
+        transition-duration: 0.2s;
         opacity: 1;
     }
 
     .content input:checked ~ .close {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
+
+        background-color: white;
+        width: 15%;
+        transition-duration: 0.2s;
     }
     .content input:checked {
         margin-left: 11%;
-    }
-
-    .content input:checked ~ .cross {
-        background-color: white;
     }
 
     /* turn em into crossmark */
