@@ -234,10 +234,11 @@ body{
 .content .close {
     margin: 0;
     padding: 2px;
-    width: 0%;
+    width: 4%;
     height: 3%;
     top: 0;
     left: 0;
+    display: none;
 
     position: absolute;
 }
@@ -261,15 +262,19 @@ body{
 
     .content input:checked ~ .close {
         display: flex;
-        align-items: center;
-        justify-content: flex-end;
-
-        background-color: white;
-        width: 15%;
-        transition-duration: 0.2s;
+        align-items: flex-end;
+        justify-content: center;
+        color: white;
+        margin-left: 11%;
+        height: 6%;
     }
     .content input:checked {
         margin-left: 11%;
+        height: 7%;
+    }
+    
+    .content input:checked ~ .cross {
+        z-index: 3;
     }
 
     /* turn em into crossmark */
