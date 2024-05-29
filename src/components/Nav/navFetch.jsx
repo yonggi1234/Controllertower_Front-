@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import VideoPopup from './navPopup'; // VideoPopup 컴포넌트 불러오기
 import '../../style/nav.css';
 
-const CameraListItem = ({ cameraName }) => (
-    <div className="li">
+const CameraListItem = ({ cameraName, onClick }) => (
+    <div className="li" onClick={onClick}>
         {cameraName}
     </div>
 );
 
-const WarningListItem = ({ warning }) => (
-    <div className="wli">
+const WarningListItem = ({ warning, onClick }) => (
+    <div className="wli" onClick={onClick}>
         {warning}
     </div>
 );
@@ -16,6 +17,17 @@ const WarningListItem = ({ warning }) => (
 const Nav = () => {
     const [cameraList, setCameraList] = useState([]);
     const [warnings, setWarnings] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
+
+    const videoFiles = [
+        require('../../source/fight_148.mp4'),
+        require('../../source/fight_149.mp4'),
+        require('../../source/datefight_24.mp4'),
+        require('../../source/fight_150.mp4'),
+        require('../../source/fight_151.mp4'),
+        require('../../source/kidnap_5.mp4')
+    ];
 
     useEffect(() => {
         // camera Fetch
@@ -36,7 +48,10 @@ const Nav = () => {
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.results) {
-                        const videoWarnings = data.results.map(result => `Warning for video ${result.video}`);
+                        const videoWarnings = data.results.map(result => ({
+                            id: result.id,
+                            url: result.clip_url
+                        }));
                         setWarnings(prevWarnings => [...prevWarnings, ...videoWarnings]);
                     } else {
                         console.error('Invalid video data:', data);
@@ -47,6 +62,21 @@ const Nav = () => {
 
     }, []);
 
+    const handleWarningClick = (videoUrl) => {
+        setSelectedVideoUrl(videoUrl);
+        setIsModalOpen(true);
+    };
+
+    const handleClosePopup = () => {
+        setIsModalOpen(false);
+        setSelectedVideoUrl(null);
+    };
+
+    const handleVideoClick = (file) => {
+        setSelectedVideoUrl(file);
+        setIsModalOpen(true);
+    };
+
     return (
         <div className="left_content">
             <div className="list">
@@ -56,11 +86,15 @@ const Nav = () => {
                 <div className="camera_list" id="cameraList">
                     {/* camera 리스트 */}
                     {cameraList.map((camera, index) => (
-                        <CameraListItem key={index} cameraName={camera} />
+                        <CameraListItem key={index} cameraName={camera} onClick={() => handleVideoClick(null)} />
                     ))}
                     {/* video 리스트 */}
-                    {[...Array(6)].map((_, i) => (
-                        <CameraListItem key={i + cameraList.length} cameraName={`camera_name${i + 1}`} />
+                    {videoFiles.map((file, index) => (
+                        <CameraListItem
+                            key={index + cameraList.length}
+                            cameraName={`camera_name${index + 1}`}
+                            onClick={() => handleVideoClick(file)}
+                        />
                     ))}
                 </div>
             </div>
@@ -72,10 +106,18 @@ const Nav = () => {
                 <div className="warning_list" id="cameraList">
                     {/* Warning List */}
                     {warnings.map((warning, index) => (
-                        <WarningListItem key={index} warning={warning} />
+                        <WarningListItem 
+                            key={index} 
+                            warning={`Warning for video ${warning.id}`} 
+                            onClick={() => handleWarningClick(warning.url)} 
+                        />
                     ))}
                 </div>
             </div>
+
+            {isModalOpen && selectedVideoUrl && (
+                <VideoPopup videoUrl={selectedVideoUrl} onClose={handleClosePopup} />
+            )}
         </div>
     );
 }

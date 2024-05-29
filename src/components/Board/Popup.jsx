@@ -1,50 +1,42 @@
 import React, { useEffect } from 'react';
-import ReactPlayer from 'react-player';
+import { MdClose } from 'react-icons/md';
 
-const VideoPopup = ({ videoUrl, onClose }) => {
+const VideoPopup = ({ mediaUrl, mediaType, onClose }) => {
     useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+
         const handleWindowClose = (e) => {
             e.preventDefault();
             onClose();
         };
 
+        window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('beforeunload', handleWindowClose);
 
         return () => {
+            window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('beforeunload', handleWindowClose);
         };
     }, [onClose]);
 
     return (
-        <div style={popupStyles.container}>
-            <button style={popupStyles.closeButton} onClick={onClose}>Close</button>
-            <ReactPlayer url={videoUrl} controls playing width="100%" height="100%" />
+        <div className="popup-container">
+            <div className="popup-content">
+                <button className="popup-close" onClick={onClose}>
+                    <MdClose style={{ fontSize: '32px', cursor: 'pointer', zIndex: 1000 }} />
+                </button>
+                {mediaType === 'video' ? (
+                    <video src={mediaUrl} controls autoPlay style={{ width: '100%', height: '100%' }} />
+                ) : (
+                    <img src={mediaUrl} alt="" style={{ width: '100%', height: '100%' }} />
+                )}
+            </div>
         </div>
     );
-};
-
-const popupStyles = {
-    container: {
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '800px',
-        height: '600px',
-        backgroundColor: 'black',
-        zIndex: 1000,
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    closeButton: {
-        alignSelf: 'flex-end',
-        margin: '10px',
-        padding: '5px 10px',
-        backgroundColor: 'red',
-        color: 'white',
-        border: 'none',
-        cursor: 'pointer',
-    },
 };
 
 export default VideoPopup;

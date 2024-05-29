@@ -1,36 +1,53 @@
 import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import VideoPopup from './Popup'; 
 import '../../style/body.css'; 
 
 function LocalVideoPlayer() {
     const screenRef = useRef(null);
-    const [streamUrl, setStreamUrl] = useState('');
-    const [videoFiles, setVideoFiles] = useState([
-        'fight_148.mp4',
-        'fight_149.mp4',
-        'datefight_24.mp4',
-        'fight_150.mp4',
-        'fight_151.mp4',
-        'kidnap_5.mp4'
-    ]);
-    const [popupVideoUrl, setPopupVideoUrl] = useState(null);
+    const [popupMedia, setPopupMedia] = useState(null);
+    const [highlightedData, setHighlightedData] = useState([]);
 
+    // SSE를 통해 데이터 가져오기
     useEffect(() => {
-        // URL에서 스트림 데이터 가져오기
-        axios.get('https://gamst.omoknooni.link/camera/')
-            .then(response => {
-                const streamUrl = response.data.results[0].stream_url;
-                setStreamUrl(streamUrl);
-            })
-            .catch(error => {
-                console.error('Error fetching stream URL:', error);
-            });
+        const eventSource = new EventSource("https://gamst.omoknooni.link/camera/stream/");
+        
+        eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            // 가져온 데이터를 저장
+            setHighlightedData(prevData => [...prevData, data]);
+        };
+
+        return () => {
+            eventSource.close();
+        };
     }, []);
 
-    // 스크린 리사이즈 시 비디오 조정
+    const handleMediaClick = (media) => {
+        setPopupMedia(media);
+    };
+
+    const handleClosePopup = () => {
+        setPopupMedia(null);
+    };
+
+    // 로컬 주소 그대로 유지
+    const mediaFiles = [
+        { type: 'image', src: 'http://52.79.81.216:7500/stream.mjpg' },
+        { type: 'video', src: require('../../source/fight_148.mp4') },
+        { type: 'video', src: require('../../source/fight_148.mp4') },
+        { type: 'video', src: require('../../source/fight_148.mp4') },
+        { type: 'video', src: require('../../source/fight_148.mp4') },
+        { type: 'video', src: require('../../source/fight_148.mp4') },
+        // require('../../source/fight_149.mp4'),
+        // require('../../source/fight_150.mp4'),
+        // require('../../source/fight_151.mp4'),
+        // require('../../source/datefight_24.mp4'),
+        // require('../../source/kidnap_5.mp4')
+    ];
+
+    // 스크린 리사이즈 시 미디어 조정
     useEffect(() => {
-        const resizeVideos = () => {
+        const resizeMedia = () => {
             const screen = screenRef.current;
             if (!screen) return;
 
@@ -44,47 +61,55 @@ function LocalVideoPlayer() {
             const height = (screenboxHeight - 20) / rows - 2 * rows;
 
             const videos = screen.querySelectorAll('video');
+            const images = screen.querySelectorAll('img');
 
             videos.forEach(video => {
                 video.style.width = `${width}px`;
                 video.style.height = `${height}px`;
             });
+
+            images.forEach(image => {
+                image.style.width = `${width}px`;
+                image.style.height = `${height}px`;
+            });
         };
 
-        window.addEventListener('resize', resizeVideos);
-        resizeVideos();
+        window.addEventListener('resize', resizeMedia);
+        resizeMedia();
 
         return () => {
-            window.removeEventListener('resize', resizeVideos);
+            window.removeEventListener('resize', resizeMedia);
         };
     }, []);
-
-    const handleVideoClick = (src) => {
-        setPopupVideoUrl(src);
-    };
-
-    const handleClosePopup = () => {
-        setPopupVideoUrl(null);
-    };
 
     return (
         <div className="content">
             <div className="screen" ref={screenRef}>
-                {videoFiles.map((fileName, index) => (
-                    <video
-                        className='local-video'
-                        key={index}
-                        controls={false}
-                        autoPlay
-                        muted
-                        src={require(`../../source/${fileName}`)}
-                        type="video/mp4"
-                        onClick={() => handleVideoClick(require(`../../source/${fileName}`))}
-                    />
+                {/* mediaFiles에서 이미지 및 비디오 출력 */}
+                {mediaFiles.map((media, index) => (
+                    media.type === 'video' ? (
+                        <video
+                            className='local-video'
+                            key={index}
+                            controls={false}
+                            autoPlay
+                            muted
+                            src={media.src}
+                            type="video/mp4"
+                            onClick={() => handleMediaClick(media)}
+                        />
+                    ) : (
+                        <img
+                            key={index}
+                            src={media.src}
+                            alt=""
+                            onClick={() => handleMediaClick(media)}
+                        />
+                    )
                 ))}
             </div>
-            {popupVideoUrl && (
-                <VideoPopup videoUrl={popupVideoUrl} onClose={handleClosePopup} />
+            {popupMedia && (
+                <VideoPopup mediaUrl={popupMedia.src} mediaType={popupMedia.type} onClose={handleClosePopup} />
             )}
         </div>
     );
