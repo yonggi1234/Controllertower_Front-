@@ -82,6 +82,25 @@ function LocalVideoPlayer() {
         };
     }, []);
 
+    useEffect(() => {
+        const currentDateTime = new Date();
+        const currentDate = currentDateTime.toISOString().slice(0, 10); 
+        const currentSeconds = currentDateTime.getSeconds();
+
+        const highlightedImages = document.querySelectorAll('.highlighted-image');
+        highlightedImages.forEach(image => {
+            const createdDate = image.dataset.createdDate;
+            if (createdDate === currentDate) {
+                const createdDateTime = new Date(highlightedData.created_at);
+                const createdSeconds = createdDateTime.getSeconds();
+                if (currentSeconds === createdSeconds || (currentSeconds - createdSeconds) <= 5) {
+                    image.style.border = '3px solid red';
+                    image.style.cursor = 'pointer';
+                }
+            }
+        });
+    }, [highlightedData]); 
+
     return (
         <div className="content">
             <div className="screen" ref={screenRef}>
@@ -100,10 +119,12 @@ function LocalVideoPlayer() {
                         />
                     ) : (
                         <img
+                            className='highlighted-image' // 클래스 추가
                             key={index}
                             src={media.src}
                             alt=""
                             onClick={() => handleMediaClick(media)}
+                            data-created-date={highlightedData[index]?.created_at?.split('T')[0]} // 이미지의 생성일 설정
                         />
                     )
                 ))}
