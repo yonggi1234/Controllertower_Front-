@@ -2,11 +2,10 @@ import React from 'react';
 import './style/main.css';
 import './style/common.css';
 
-import Body from './components/Board/body';
 import Header from './components/Header/header';
+import Body from './components/Board/body';
 import HD from './components/header-bottom/headerBottom';
 import Footer from './components/Footer/footer';
-// import Nav from './components/Nav/nav';
 import Nav from './components/Nav/navFetch';
 import { BrowserRouter,Route, Routes } from 'react-router-dom';
 
