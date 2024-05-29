@@ -82,9 +82,10 @@ function LocalVideoPlayer() {
         };
     }, []);
 
+    // 시간 비교
     useEffect(() => {
         const currentDateTime = new Date();
-        const currentDate = currentDateTime.toISOString().slice(0, 10); 
+        const currentDate = currentDateTime.toISOString().slice(0, 10); // YYYY-MM-DD
         const currentSeconds = currentDateTime.getSeconds();
 
         const highlightedImages = document.querySelectorAll('.highlighted-image');
@@ -119,12 +120,12 @@ function LocalVideoPlayer() {
                         />
                     ) : (
                         <img
-                            className='highlighted-image' // 클래스 추가
+                            className='highlighted-image' 
                             key={index}
                             src={media.src}
                             alt=""
                             onClick={() => handleMediaClick(media)}
-                            data-created-date={highlightedData[index]?.created_at?.split('T')[0]} // 이미지의 생성일 설정
+                            data-created-date={highlightedData[index]?.created_at?.split('T')[0]}
                         />
                     )
                 ))}
