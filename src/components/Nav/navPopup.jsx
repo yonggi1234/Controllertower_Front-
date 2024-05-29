@@ -1,4 +1,3 @@
-// VideoPopup.js
 import React, { useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
 

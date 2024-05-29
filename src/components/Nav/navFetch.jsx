@@ -30,41 +30,61 @@ const Nav = () => {
     ];
 
     useEffect(() => {
-        // camera Fetch
-        fetch('https://gamst.omoknooni.link/camera/')
-            .then(response => response.json())
-            .then(data => {
-                const { results } = data;
-                const cameras = results.map(result => result.name);
-                setCameraList(cameras);
-            })
-            .catch(error => console.error('Error fetching camera data:', error));
-
-        // video Fetch
+        // Fetching all warning data at once
         const warningURLs = Array.from({ length: 6 }, (_, i) => `https://gamst.omoknooni.link/video/${i + 1}/risk/`);
 
-        warningURLs.forEach(url => {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.results) {
-                        const videoWarnings = data.results.map(result => ({
-                            id: result.id,
-                            url: result.clip_url
-                        }));
-                        setWarnings(prevWarnings => [...prevWarnings, ...videoWarnings]);
-                    } else {
-                        console.error('Invalid video data:', data);
-                    }
-                })
-                .catch(error => console.error('Error fetching video data:', error));
+        Promise.all(
+            warningURLs.map(url =>
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.results) {
+                            return data.results.map(result => ({
+                                id: parseInt(url.match(/\/video\/(\d+)\/risk/)[1]), // Extract the number from the URL
+                                url: result.clip_url,
+                                type: 'Video'
+                            }));
+                        } else {
+                            console.error('Invalid video data:', data);
+                            return [];
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching video data:', error);
+                        return [];
+                    })
+            )
+        )
+        .then(warningsData => {
+            // Flatten the array of arrays into a single array of warnings
+            const mergedWarnings = warningsData.flat();
+            setWarnings(mergedWarnings);
         });
 
+        // SSE Setup
+        const eventSource = new EventSource('https://gamst.omoknooni.link/camera/stream/');
+        eventSource.onmessage = (event) => {
+            const eventData = JSON.parse(event.data);
+            const newCamera = {
+                id: eventData.id,
+                url: eventData.section_video_url,
+                type: 'Camera'
+            };
+            setWarnings(prevWarnings => [newCamera, ...prevWarnings]);
+        };
+
+        return () => {
+            eventSource.close();
+        };
     }, []);
 
-    const handleWarningClick = (videoUrl) => {
-        setSelectedVideoUrl(videoUrl);
-        setIsModalOpen(true);
+    const handleWarningClick = (videoUrl, type, id) => {
+        if (type === 'Camera') {
+            window.open(videoUrl, '_blank');
+        } else {
+            setSelectedVideoUrl(videoUrl);
+            setIsModalOpen(true);
+        }
     };
 
     const handleClosePopup = () => {
@@ -108,8 +128,8 @@ const Nav = () => {
                     {warnings.map((warning, index) => (
                         <WarningListItem 
                             key={index} 
-                            warning={`Warning for video ${warning.id}`} 
-                            onClick={() => handleWarningClick(warning.url)} 
+                            warning={warning.type === 'Video' ? `Warning for video ${warning.id}` : 'Camera'} 
+                            onClick={() => handleWarningClick(warning.url, warning.type, warning.id)} 
                         />
                     ))}
                 </div>
