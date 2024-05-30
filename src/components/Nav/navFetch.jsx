@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import VideoPopup from './navPopup'; 
 import '../../style/nav.css';
+import FetchWarnings from '../Fetch/fetchWarnings';
+import SSEWarnings from '../SSE/SSEWarnings';
 
 const CameraListItem = ({ cameraName, onClick }) => (
     <div className="li" onClick={onClick}>
@@ -15,7 +17,7 @@ const WarningListItem = ({ warning, onClick }) => (
 );
 
 const Nav = () => {
-    const [cameraList, setCameraList] = useState([]);
+    const [cameraList] = useState([]);
     const [warnings, setWarnings] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
@@ -29,60 +31,16 @@ const Nav = () => {
         require('../../source/kidnap_5.mp4')
     ];
 
-    useEffect(() => {
-        // Fetch warning data
-        const warningURLs = Array.from({ length: 6 }, (_, i) => `https://gamst.omoknooni.link/video/${i + 1}/risk/`);
-
-        Promise.all(
-            warningURLs.map(url =>
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data.results) {
-                            return data.results.map(result => ({
-                                id: parseInt(url.match(/\/video\/(\d+)\/risk/)[1]),
-                                url: result.clip_url,
-                                type: 'Video'
-                            }));
-                        } else {
-                            console.error('Invalid video data:', data);
-                            return [];
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching video data:', error);
-                        return [];
-                    })
-            )
-        )
-        .then(warningsData => {
-            const mergedWarnings = warningsData.flat();
-            setWarnings(mergedWarnings);
-        });
-
-        // SSE Setup
-        const eventSource = new EventSource('https://gamst.omoknooni.link/camera/stream/');
-        eventSource.onmessage = (event) => {
-            const eventData = JSON.parse(event.data);
-            const newCamera = {
-                id: eventData.id,
-                video_uid: eventData.video_uid,
-                url: eventData.section_video_url,
-                type: 'Camera'
-            };
-            setWarnings(prevWarnings => {
-                const isDuplicate = prevWarnings.some(warning => warning.video_uid === newCamera.video_uid);
-                if (isDuplicate) {
-                    return prevWarnings;
-                }
-                return [newCamera, ...prevWarnings];
-            });
-        };
-
-        return () => {
-            eventSource.close();
-        };
-    }, []);
+    const formatDateTime = (dateTimeString) => {
+        const date = new Date(dateTimeString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    };
 
     const handleWarningClick = (videoUrl, type) => {
         if (type === 'Camera') {
@@ -105,16 +63,16 @@ const Nav = () => {
 
     return (
         <div className="left_content">
+            <FetchWarnings setWarnings={setWarnings} />
+            <SSEWarnings setWarnings={setWarnings} />
             <div className="list">
                 <div className="list_header">
                     <p>🎞️VIDEOS</p>
                 </div>
                 <div className="camera_list" id="cameraList">
-                    {/* camera 리스트 */}
                     {cameraList.map((camera, index) => (
                         <CameraListItem key={index} cameraName={camera} onClick={() => handleVideoClick(null)} />
                     ))}
-                    {/* video 리스트 */}
                     {videoFiles.map((file, index) => (
                         <CameraListItem
                             key={index + cameraList.length}
@@ -130,11 +88,10 @@ const Nav = () => {
                     <p>⚠️ warning</p>
                 </div>
                 <div className="warning_list" id="cameraList">
-                    {/* Warning List */}
                     {warnings.map((warning, index) => (
                         <WarningListItem 
                             key={index} 
-                            warning={warning.type === 'Video' ? `Warning for video ${warning.id}` : 'Camera'} 
+                            warning={warning.type === 'Video' ? `Warning for video ${warning.id}` : `Camera | ${formatDateTime(warning.created_at)}`} 
                             onClick={() => handleWarningClick(warning.url, warning.type)} 
                         />
                     ))}
