@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import title from '../../source/title.png';
 import "../../style/header.css";
 
 function Header() {
@@ -19,7 +20,7 @@ function Header() {
     return (
         <div className="header">
             <div className="title">
-                this is Title
+                <img src={title} alt="" width={'100px'}/>
             </div>
             
             <div className="buttons">

@@ -1,6 +1,6 @@
 .header {
     align-self: flex-start;
-    background-color: rgb(27, 26, 29);
+    background-color: black;
     width: 100vw;
     height: 5vh;
     display: flex;
@@ -15,7 +15,8 @@
     /* margin-top: 1%; */
     display: flex;
     align-items: center;
-
+    padding-top: 0.5%; 
+    padding-left: 0.5%; 
     font-size: 1.25em;
     
 }
