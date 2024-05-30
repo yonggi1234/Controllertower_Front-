@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Test from '../Board/test';
+import React from 'react';
+import Local from './LocalVideoPlayer';
 
 function VideoBoard() {
     return (
         <div>
-            <Test/>
+            <Local/>
         </div>
     );
 }
