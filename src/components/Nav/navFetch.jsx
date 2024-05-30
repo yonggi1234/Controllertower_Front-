@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import VideoPopup from './navPopup'; // VideoPopup 컴포넌트 불러오기
+import VideoPopup from './navPopup'; 
 import '../../style/nav.css';
 
 const CameraListItem = ({ cameraName, onClick }) => (
@@ -30,7 +30,7 @@ const Nav = () => {
     ];
 
     useEffect(() => {
-        // Fetching all warning data at once
+        // Fetch warning data
         const warningURLs = Array.from({ length: 6 }, (_, i) => `https://gamst.omoknooni.link/video/${i + 1}/risk/`);
 
         Promise.all(
@@ -40,7 +40,7 @@ const Nav = () => {
                     .then(data => {
                         if (data && data.results) {
                             return data.results.map(result => ({
-                                id: parseInt(url.match(/\/video\/(\d+)\/risk/)[1]), // Extract the number from the URL
+                                id: parseInt(url.match(/\/video\/(\d+)\/risk/)[1]),
                                 url: result.clip_url,
                                 type: 'Video'
                             }));
@@ -56,7 +56,6 @@ const Nav = () => {
             )
         )
         .then(warningsData => {
-            // Flatten the array of arrays into a single array of warnings
             const mergedWarnings = warningsData.flat();
             setWarnings(mergedWarnings);
         });
@@ -67,10 +66,17 @@ const Nav = () => {
             const eventData = JSON.parse(event.data);
             const newCamera = {
                 id: eventData.id,
+                video_uid: eventData.video_uid,
                 url: eventData.section_video_url,
                 type: 'Camera'
             };
-            setWarnings(prevWarnings => [newCamera, ...prevWarnings]);
+            setWarnings(prevWarnings => {
+                const isDuplicate = prevWarnings.some(warning => warning.video_uid === newCamera.video_uid);
+                if (isDuplicate) {
+                    return prevWarnings;
+                }
+                return [newCamera, ...prevWarnings];
+            });
         };
 
         return () => {
@@ -78,7 +84,7 @@ const Nav = () => {
         };
     }, []);
 
-    const handleWarningClick = (videoUrl, type, id) => {
+    const handleWarningClick = (videoUrl, type) => {
         if (type === 'Camera') {
             window.open(videoUrl, '_blank');
         } else {
@@ -129,7 +135,7 @@ const Nav = () => {
                         <WarningListItem 
                             key={index} 
                             warning={warning.type === 'Video' ? `Warning for video ${warning.id}` : 'Camera'} 
-                            onClick={() => handleWarningClick(warning.url, warning.type, warning.id)} 
+                            onClick={() => handleWarningClick(warning.url, warning.type)} 
                         />
                     ))}
                 </div>
