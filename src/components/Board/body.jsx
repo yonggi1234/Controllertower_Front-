@@ -1,13 +1,14 @@
 import React from 'react';
 import "../../style/body.css"
-import VideoBoard from './VideoBoard';
-
+import Local from './LocalVideoPlayer';
 function Body() {
 
     
     return (
             <div className="screen">
-                <VideoBoard/>
+                <div>
+                    <Local/>
+                </div>
             </div>
     );
 }
