@@ -2,36 +2,24 @@ import React, { useEffect, useRef, useState } from 'react';
 import VideoPopup from './Popup'; 
 import '../../style/body.css'; 
 
-const mediaFiles = [
-    { type: 'image', src: 'http://52.79.81.216:7500/stream.mjpg' },
-    { type: 'video', src: require('../../source/fight_148.mp4') },
-    { type: 'video', src: require('../../source/fight_148.mp4') },
-    { type: 'video', src: require('../../source/fight_148.mp4') },
-    { type: 'video', src: require('../../source/fight_148.mp4') },
-    { type: 'video', src: require('../../source/fight_148.mp4') },
-    // require('../../source/fight_149.mp4'),
-    // require('../../source/fight_150.mp4'),
-    // require('../../source/fight_151.mp4'),
-    // require('../../source/datefight_24.mp4'),
-    // require('../../source/kidnap_5.mp4')
-];
-
 function LocalVideoPlayer() {
     const screenRef = useRef(null);
     const [popupMedia, setPopupMedia] = useState(null);
     const [highlightedData, setHighlightedData] = useState([]);
-    const [highlightedImages, setHighlightedImages] = useState({});
 
-    // SSE 통신
+    // SSE를 통해 데이터 가져오기
     useEffect(() => {
         const eventSource = new EventSource("https://gamst.omoknooni.link/camera/stream/");
-        
+
         eventSource.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            // 가져온 데이터를 저장
             setHighlightedData(prevData => {
+                // 중복된 video_uid가 있는지 확인
                 if (prevData.some(item => item.video_uid === data.video_uid)) {
                     return prevData;
                 } else {
+                    // 중복된 video_uid가 없으면 새로운 데이터 추가
                     return [...prevData, data];
                 }
             });
@@ -61,7 +49,7 @@ function LocalVideoPlayer() {
 
             const cols = 3;
             const rows = 2; 
-            
+
             const width = (screenboxWidth - 20) / cols - 2 * cols; 
             const height = (screenboxHeight - 20) / rows - 2 * rows;
 
@@ -87,40 +75,34 @@ function LocalVideoPlayer() {
         };
     }, []);
 
-    // img css 수정
-    const highlightImage = (index) => {
-        const images = screenRef.current?.querySelectorAll('img');
-        if (!images || !images[index]) return; 
-        images.forEach((image, i) => {
-            image.style.border = '';
-            image.style.cursor = '';
-        });
-        if (index !== null) {
+    //risk 강조
+    useEffect(() => {
+        highlightedData.forEach((data, index) => {
+            setTimeout(() => {
+                const images = screenRef.current.querySelectorAll('img');
+                if (!images || !images[index]) return;
+                images[index].style.border = '';
+                images[index].style.cursor = '';
+            }, 3000);    // 3초 강조
+            const images = screenRef.current.querySelectorAll('img');
+            if (!images || !images[index]) return;
             images[index].style.border = '3px solid red';
             images[index].style.cursor = 'pointer';
-        }
-    };
+        });
+    }, [highlightedData]);
 
-    // 3초 지속
-    useEffect(() => {
-        if (highlightedData.length === 0) return;
-
-        const latestData = highlightedData[highlightedData.length - 1];
-        const index = mediaFiles.findIndex(media => media.type === 'image');
-
-        if (index !== -1 && !highlightedImages[latestData.video_uid]) {
-            highlightImage(index);
-
-            setHighlightedImages(prevImages => ({
-                ...prevImages,
-                [latestData.video_uid]: true,
-            }));
-
-            setTimeout(() => {
-                highlightImage(null);
-            }, 3000);
-        }
-    }, [highlightedData, highlightedImages]);
+    // 로컬 주소
+    const mediaFiles = [
+        { type: 'image', src: 'http://52.79.81.216:7500/stream.mjpg' },
+        { type: 'video', src: require('../../source/a.mp4') },
+        { type: 'video', src: require('../../source/a.mp4') },
+        { type: 'video', src: require('../../source/a.mp4') },
+        // require('../../source/fight_149.mp4'),
+        // require('../../source/fight_150.mp4'),
+        // require('../../source/fight_151.mp4'),
+        // require('../../source/datefight_24.mp4'),
+        // require('../../source/kidnap_5.mp4')
+    ];
 
     return (
         <div className="content">
