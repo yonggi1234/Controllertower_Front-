@@ -61,19 +61,17 @@ function LocalVideoPlayer() {
 
             imageDivs.forEach(div => {
                 div.style.width = `${width}px`;
-                div.style.height = `${height}px`;
-                div.style.display = 'flex';
-                div.style.alignItems = 'center';
+                div.style.height = `${height+50}px`; 
 
+                // 이미지 스타일 조정
                 const image = div.querySelector('img');
                 if (image) {
-                    // 이미지가 div의 크기에 맞게 조정되도록 설정
-                    image.style.width = '100%';
-                    image.style.height = '30%';
-                    image.style.objectFit = 'contain'; // 이미지가 확대/축소되지 않도록 설정
-                    image.style.margin = 'auto'; // 이미지를 가운데 정렬하기 위해 margin 설정
+                    image.style.width = '100%'; // 이미지가 div의 가로 크기에 맞게 조정
+                    image.style.height = '100%'; // 이미지가 div의 세로 크기에 맞게 조정
+                    image.style.objectFit = 'cover'; // 이미지가 div 안에 꽉 채워지도록 설정
                 }
             });
+
         };
 
         window.addEventListener('resize', resizeMedia);
