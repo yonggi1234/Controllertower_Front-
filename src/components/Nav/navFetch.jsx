@@ -23,6 +23,7 @@ const Nav = () => {
     const [cameraList] = useState([]);
     const [warnings, setWarnings] = useState([]);
     const [highlightedData, setHighlightedData] = useState([]);
+    const [processedWarnings, setProcessedWarnings] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
 
@@ -69,7 +70,12 @@ const Nav = () => {
         <div className="left_content">
             <div className="nav_pad">
                 <FetchWarnings setWarnings={setWarnings} />
-                <SSEWarnings setWarnings={setWarnings} setHighlightedData={setHighlightedData} />
+                <SSEWarnings 
+                    setWarnings={setWarnings} 
+                    setHighlightedData={setHighlightedData} 
+                    processedWarnings={processedWarnings}
+                    setProcessedWarnings={setProcessedWarnings} 
+                />
                 <div className="list">
                     <div className="list_header">
                         <p>🎞️VIDEOS</p>

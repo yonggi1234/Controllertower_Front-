@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const SSEWarnings = ({ setWarnings, setHighlightedData }) => {
+const SSEWarnings = ({ setWarnings, setHighlightedData, processedWarnings, setProcessedWarnings }) => {
     useEffect(() => {
         const eventSource = new EventSource('https://gamst.omoknooni.link/camera/stream/');
         eventSource.onmessage = (event) => {
@@ -22,9 +22,10 @@ const SSEWarnings = ({ setWarnings, setHighlightedData }) => {
             });
 
             setHighlightedData(prevData => {
-                if (prevData.some(item => item.video_uid === newCamera.video_uid)) {
+                if (processedWarnings.some(item => item.video_uid === newCamera.video_uid) || prevData.some(item => item.video_uid === newCamera.video_uid)) {
                     return prevData;
                 } else {
+                    setProcessedWarnings(prevProcessed => [...prevProcessed, newCamera]);
                     return [...prevData, newCamera];
                 }
             });
@@ -37,7 +38,7 @@ const SSEWarnings = ({ setWarnings, setHighlightedData }) => {
         return () => {
             eventSource.close();
         };
-    }, [setWarnings, setHighlightedData]);
+    }, [setWarnings, setHighlightedData, processedWarnings, setProcessedWarnings]);
 
     return null;
 };
