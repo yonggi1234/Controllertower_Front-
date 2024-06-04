@@ -152,17 +152,6 @@ function VideoList() {
               ))}
             </select>
           </div>
-
-          <div className="checkbox-group">
-            <label>
-              <input type="checkbox" checked={sortOption === 'id'} onChange={() => handleSortOptionChange('id')} />
-              ID 정렬
-            </label>
-            <label>
-              <input type="checkbox" checked={sortOption === 'date'} onChange={() => handleSortOptionChange('date')} />
-              날짜 정렬
-            </label>
-          </div>
         </div>
       </div>
 
