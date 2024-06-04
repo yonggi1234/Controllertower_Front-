@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import VideoPopup from './Popup'; 
 import '../../style/body.css'; 
-import a from '../../source/a.jpg';
 
 function LocalVideoPlayer() {
     const screenRef = useRef(null);
@@ -42,40 +41,40 @@ function LocalVideoPlayer() {
         const resizeMedia = () => {
             const screen = screenRef.current;
             if (!screen) return;
-        
+
             const screenboxWidth = screen.clientWidth;
             const screenboxHeight = screen.clientHeight;
-        
+
             const cols = 3;
             const rows = 2; 
             
             const width = (screenboxWidth - 20) / cols - 2 * cols; 
             const height = (screenboxHeight - 20) / rows - 2 * rows;
-        
+
             const videos = screen.querySelectorAll('video');
             const imageDivs = screen.querySelectorAll('.image-div');
-        
+
             videos.forEach(video => {
                 video.style.width = `${width}px`;
                 video.style.height = `${height}px`;
             });
-        
+
             imageDivs.forEach(div => {
                 div.style.width = `${width}px`;
                 div.style.height = `${height}px`;
-                div.style.display = 'flex'; 
+                div.style.display = 'flex';
                 div.style.alignItems = 'center';
-        
+
                 const image = div.querySelector('img');
                 if (image) {
-                    image.style.maxHeight = `${height * 0.63}px`; 
-                    image.style.width = '100%'; 
+                    // 이미지가 div의 크기에 맞게 조정되도록 설정
+                    image.style.width = '100%';
+                    image.style.height = '30%';
+                    image.style.objectFit = 'contain'; // 이미지가 확대/축소되지 않도록 설정
+                    image.style.margin = 'auto'; // 이미지를 가운데 정렬하기 위해 margin 설정
                 }
             });
         };
-        
-        
-        
 
         window.addEventListener('resize', resizeMedia);
         resizeMedia();
@@ -150,38 +149,36 @@ function LocalVideoPlayer() {
     return (
         <div className='content'>
             <div className="screen" ref={screenRef}>
-            {mediaFiles.map((media, index) => (
-    media.type === 'video' ? (
-        <video
-            className='local-video'
-            key={index}
-            controls={false}
-            autoPlay
-            muted
-            src={media.src}
-            type="video/mp4"
-            onClick={() => handleMediaClick(media)}
-        />
-    ) : (
-        <div
-            key={index}
-            className="image-div" // 클래스명 추가
-            style={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-            }}
-        >
-            <img
-                src={a}
-                // src={media.src}
-                alt=""
-                onClick={() => handleMediaClick(media)}
-            />
-        </div>
-    )
-))}
-
+                {mediaFiles.map((media, index) => (
+                    media.type === 'video' ? (
+                        <video
+                            className='local-video'
+                            key={index}
+                            controls={false}
+                            autoPlay
+                            muted
+                            src={media.src}
+                            type="video/mp4"
+                            onClick={() => handleMediaClick(media)}
+                        />
+                    ) : (
+                        <div
+                            key={index}
+                            className="image-div" // 클래스명 추가
+                            style={{
+                                position: 'relative',
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <img
+                                src={media.src}
+                                alt=""
+                                onClick={() => handleMediaClick(media)}
+                            />
+                        </div>
+                    )
+                ))}
             </div>
             {popupMedia && (
                 <VideoPopup mediaUrl={popupMedia.src} mediaType={popupMedia.type} onClose={handleClosePopup} />
