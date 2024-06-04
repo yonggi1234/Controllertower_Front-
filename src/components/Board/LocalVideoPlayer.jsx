@@ -66,9 +66,9 @@ function LocalVideoPlayer() {
                 // 이미지 스타일 조정
                 const image = div.querySelector('img');
                 if (image) {
-                    image.style.width = '100%'; // 이미지가 div의 가로 크기에 맞게 조정
-                    image.style.height = '100%'; // 이미지가 div의 세로 크기에 맞게 조정
-                    image.style.objectFit = 'cover'; // 이미지가 div 안에 꽉 채워지도록 설정
+                    image.style.width = '100%'; 
+                    image.style.height = '100%'; 
+                    image.style.objectFit = 'cover';
                 }
             });
 
