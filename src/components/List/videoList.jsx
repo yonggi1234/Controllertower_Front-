@@ -20,7 +20,8 @@ const FetchWarnings = ({ setWarnings }) => {
                 url: result.clip_url,
                 title: `Video ${parseInt(url.match(/\/video\/(\d+)\/risk/)[1])}`,
                 created_at: result.created_at,
-                type: 'Video'
+                type: 'Video',
+                length: result.length, 
               }));
               return fetchedData;
             } else {
@@ -54,10 +55,9 @@ const SSEWarnings = ({ setWarnings }) => {
         id: 0, // Set camera id to 0
         video_uid: eventData.video_uid,
         url: eventData.section_video_url,
-        start_time: eventData.start_time, // Store start time
-        end_time: eventData.end_time, // Store end time
         created_at: eventData.created_at,
-        type: 'Camera'
+        type: 'Camera',
+        length: eventData.length, 
       };
       setWarnings(prevWarnings => {
         const isDuplicate = prevWarnings.some(warning => warning.video_uid === newCamera.video_uid);
@@ -105,18 +105,6 @@ function VideoList() {
     return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
   };
 
-  const calculateVideoLength = (startTime, endTime) => {
-    const start = new Date(startTime);
-    const end = new Date(endTime);
-    const difference = end.getTime() - start.getTime();
-    return Math.floor(difference / 1000); // Convert milliseconds to seconds
-  };
-
-  const filterVideosById = () => {
-    if (!selectedId) return videos;
-    return videos.filter(video => video.id === parseInt(selectedId));
-  };
-
   const openModal = (video) => {
     setSelectedVideo(video);
     setIsModalOpen(true);
@@ -127,13 +115,15 @@ function VideoList() {
     setSelectedVideo(null);
   };
 
-  const handleSortOptionChange = (option) => {
-    if (sortOption !== option) {
-      setSortOption(option);
+  const filteredVideos = videos.filter(video => {
+    if (selectedId === '') {
+      return true; // Show all videos if no ID is selected
+    } else if (selectedId === 'Camera') {
+      return video.type === 'Camera';
     } else {
-      setSortOption(null);
+      return video.id === parseInt(selectedId);
     }
-  };
+  });
 
   const sortedVideos = sortVideos(sortOption);
 
@@ -147,8 +137,9 @@ function VideoList() {
           <div className="dropdown">
             <select value={selectedId} onChange={(e) => setSelectedId(e.target.value)}>
               <option value="">모든 ID</option>
-              {videos.map(video => (
-                <option key={video.id} value={video.id}>{video.id}</option>
+              <option value="Camera">Camera</option>
+              {[1, 2, 3, 4, 5, 6].map(id => (
+                <option key={id} value={id}>{id}</option>
               ))}
             </select>
           </div>
@@ -166,20 +157,61 @@ function VideoList() {
               <th>영상 길이</th>
               <th>이미지</th>
             </tr>
-            {sortedVideos.map(video => (
-              <tr key={video.id}>
-                <td data-th="Supplier Code">{video.id}</td>
-                <td data-th="Supplier Name">발생</td>
-                <td data-th="Invoice Number">{video.type === 'Camera' ? 'Camera' : video.title}</td>
-                <td data-th="Invoice Date">{formatDate(video.created_at)}</td>
-                <td data-th="Due Date">{video.type === 'Camera' ? calculateVideoLength(video.start_time, video.end_time)+'초' : '3'}</td>
-                <td data-th="Net Amount">
-                  <div onClick={() => openModal(video)} style={{ cursor: 'pointer' }}>
-                    <ReactPlayer url={video.url} controls={true} width={'150px'} height={'100px'} onClick={(e) => e.stopPropagation()} />
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {selectedId === '' ? sortedVideos.map(video => (
+    <tr key={video.id}>
+        <td data-th="Supplier Code">{video.id}</td>
+        <td data-th="Supplier Name">발생</td>
+        <td data-th="Invoice Number">{video.type === 'Camera' ? 'Camera' : video.title}</td>
+        <td data-th="Invoice Date">{formatDate(video.created_at)}</td>
+        <td data-th="Due Date">{video.length+'초'}</td>
+        <td data-th="Net Amount">
+            <div onClick={() => openModal(video)} style={{ cursor: 'pointer' }}>
+                <ReactPlayer url={video.url} controls={true} width={'150px'} height={'100px'} onClick={(e) => e.stopPropagation()} />
+            </div>
+        </td>
+    </tr>
+)) : videos.map(video => {
+    if (selectedId === 'Camera') {
+        if (video.type === 'Camera') {
+            return (
+                <tr key={video.id}>
+                    <td data-th="Supplier Code">{video.id}</td>
+                    <td data-th="Supplier Name">발생</td>
+                    <td data-th="Invoice Number">Camera</td>
+                    <td data-th="Invoice Date">{formatDate(video.created_at)}</td>
+                    <td data-th="Due Date">{video.length+'초'}</td>
+                    <td data-th="Net Amount">
+                        <div onClick={() => openModal(video)} style={{ cursor: 'pointer' }}>
+                            <ReactPlayer url={video.url} controls={true} width={'150px'} height={'100px'} onClick={(e) => e.stopPropagation()} />
+                        </div>
+                    </td>
+                </tr>
+            );
+        } else {
+            return null;
+        }
+    } else {
+        if (video.id === parseInt(selectedId)) {
+            return (
+                <tr key={video.id}>
+                    <td data-th="Supplier Code">{video.id}</td>
+                    <td data-th="Supplier Name">발생</td>
+                    <td data-th="Invoice Number">{video.title}</td>
+                    <td data-th="Invoice Date">{formatDate(video.created_at)}</td>
+                    <td data-th="Due Date">{video.length+'초'}</td>
+                    <td data-th="Net Amount">
+                        <div onClick={() => openModal(video)} style={{ cursor: 'pointer' }}>
+                            <ReactPlayer url={video.url} controls={true} width={'150px'} height={'100px'} onClick={(e) => e.stopPropagation()} />
+                        </div>
+                    </td>
+                </tr>
+            );
+        } else {
+            return null;
+        }
+    }
+})}
+
           </tbody>
         </table>
       </div>
