@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import VideoPopup from './navPopup'; 
+import VideoPopup from './navPopup';
 import '../../style/nav.css';
 import FetchWarnings from '../Fetch/fetchWarnings';
 import SSEWarnings from '../SSE/SSEWarnings';
@@ -10,8 +10,11 @@ const CameraListItem = ({ cameraName, onClick }) => (
     </div>
 );
 
-const WarningListItem = ({ warning, onClick }) => (
-    <div className="wli" onClick={onClick}>
+const WarningListItem = ({ warning, onClick, highlighted }) => (
+    <div
+        className={`wli ${highlighted ? 'highlight' : ''}`} 
+        onClick={onClick}
+    >
         {warning}
     </div>
 );
@@ -19,6 +22,7 @@ const WarningListItem = ({ warning, onClick }) => (
 const Nav = () => {
     const [cameraList] = useState([]);
     const [warnings, setWarnings] = useState([]);
+    const [highlightedData, setHighlightedData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
 
@@ -43,12 +47,8 @@ const Nav = () => {
     };
 
     const handleWarningClick = (videoUrl, type) => {
-        if (type === 'Camera') {
-            window.open(videoUrl, '_blank');
-        } else {
-            setSelectedVideoUrl(videoUrl);
-            setIsModalOpen(true);
-        }
+        setSelectedVideoUrl(videoUrl);
+        setIsModalOpen(true);
     };
 
     const handleClosePopup = () => {
@@ -61,46 +61,53 @@ const Nav = () => {
         setIsModalOpen(true);
     };
 
+    const isHighlighted = (warning) => {
+        return highlightedData.some(item => item.video_uid === warning.video_uid);
+    };
+
     return (
         <div className="left_content">
-            <FetchWarnings setWarnings={setWarnings} />
-            <SSEWarnings setWarnings={setWarnings} />
-            <div className="list">
-                <div className="list_header">
-                    <p>🎞️VIDEOS</p>
+            <div className="nav_pad">
+                <FetchWarnings setWarnings={setWarnings} />
+                <SSEWarnings setWarnings={setWarnings} setHighlightedData={setHighlightedData} />
+                <div className="list">
+                    <div className="list_header">
+                        <p>🎞️VIDEOS</p>
+                    </div>
+                    <div className="camera_list" id="cameraList">
+                        {cameraList.map((camera, index) => (
+                            <CameraListItem key={index} cameraName={camera} onClick={() => handleVideoClick(null)} />
+                        ))}
+                        {videoFiles.map((file, index) => (
+                            <CameraListItem
+                                key={index + cameraList.length}
+                                cameraName={`camera_name${index + 1}`}
+                                onClick={() => handleVideoClick(file)}
+                            />
+                        ))}
+                    </div>
                 </div>
-                <div className="camera_list" id="cameraList">
-                    {cameraList.map((camera, index) => (
-                        <CameraListItem key={index} cameraName={camera} onClick={() => handleVideoClick(null)} />
-                    ))}
-                    {videoFiles.map((file, index) => (
-                        <CameraListItem
-                            key={index + cameraList.length}
-                            cameraName={`camera_name${index + 1}`}
-                            onClick={() => handleVideoClick(file)}
-                        />
-                    ))}
+                <hr className='divider'/>
+                <div className="warnings">
+                    <div className="warning_header">
+                        <p>⚠️ warning</p>
+                    </div>
+                    <div className="warning_list" id="cameraList">
+                            {warnings.map((warning, index) => (
+                                <WarningListItem 
+                                    key={index} 
+                                    warning={warning.type === 'Video' ? `Warning for video ${warning.id}` : `Camera | ${formatDateTime(warning.created_at)}`} 
+                                    onClick={() => handleWarningClick(warning.url, warning.type)} 
+                                    highlighted={isHighlighted(warning)}
+                                />
+                            ))}
+                    </div>
                 </div>
-            </div>
-            <hr className='divider'/>
-            <div className="warnings">
-                <div className="warning_header">
-                    <p>⚠️ warning</p>
-                </div>
-                <div className="warning_list" id="cameraList">
-                    {warnings.map((warning, index) => (
-                        <WarningListItem 
-                            key={index} 
-                            warning={warning.type === 'Video' ? `Warning for video ${warning.id}` : `Camera | ${formatDateTime(warning.created_at)}`} 
-                            onClick={() => handleWarningClick(warning.url, warning.type)} 
-                        />
-                    ))}
-                </div>
-            </div>
 
-            {isModalOpen && selectedVideoUrl && (
-                <VideoPopup videoUrl={selectedVideoUrl} onClose={handleClosePopup} />
-            )}
+                {isModalOpen && selectedVideoUrl && (
+                    <VideoPopup videoUrl={selectedVideoUrl} onClose={handleClosePopup} />
+                )}
+            </div>
         </div>
     );
 }
