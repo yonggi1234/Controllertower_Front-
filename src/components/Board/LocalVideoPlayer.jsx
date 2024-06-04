@@ -144,6 +144,11 @@ function LocalVideoPlayer() {
         { type: 'video', src: require('../../source/fight_148.mp4') },
         { type: 'video', src: require('../../source/fight_148.mp4') },
         { type: 'video', src: require('../../source/fight_148.mp4') },
+        // { type: 'video', src: require('../../source/fight_149.mp4') },
+        // { type: 'video', src: require('../../source/fight_150.mp4') },
+        // { type: 'video', src: require('../../source/fight_151.mp4') },
+        // { type: 'video', src: require('../../source/kidnap_5.mp4') },
+        // { type: 'video', src: require('../../source/datefight_24.mp4') },
     ];
 
     return (
@@ -164,7 +169,7 @@ function LocalVideoPlayer() {
                     ) : (
                         <div
                             key={index}
-                            className="image-div" // 클래스명 추가
+                            className="image-div" 
                             style={{
                                 position: 'relative',
                                 display: 'flex',
