@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+
 import VideoPopup from './Popup'; 
 import '../../style/body.css'; 
 
@@ -38,6 +39,7 @@ function LocalVideoPlayer() {
 
     // 스크린 리사이즈 시 미디어 조정
     useEffect(() => {
+        // 이미지와 비디오의 크기를 동일하게 조정하는 함수
         const resizeMedia = () => {
             const screen = screenRef.current;
             if (!screen) return;
@@ -46,37 +48,30 @@ function LocalVideoPlayer() {
             const screenboxHeight = screen.clientHeight;
 
             const cols = 3;
-            const rows = 2; 
-            
-            const width = (screenboxWidth - 20) / cols - 2 * cols; 
+            const rows = 2;
+
+            const width = (screenboxWidth - 20) / cols - 2 * cols;
             const height = (screenboxHeight - 20) / rows - 2 * rows;
 
             const videos = screen.querySelectorAll('video');
-            const imageDivs = screen.querySelectorAll('.image-div');
+            const images = screen.querySelectorAll('img');
 
             videos.forEach(video => {
                 video.style.width = `${width}px`;
                 video.style.height = `${height}px`;
             });
 
-            imageDivs.forEach(div => {
-                div.style.width = `${width}px`;
-                div.style.height = `${height+50}px`; 
-
-                // 이미지 스타일 조정
-                const image = div.querySelector('img');
-                if (image) {
-                    image.style.width = '100%'; 
-                    image.style.height = '100%'; 
-                    image.style.objectFit = 'cover';
-                }
+            images.forEach(image => {
+                image.style.width = `${width}px`;
+                image.style.height = `${height}px`;
+                image.style.objectFit = 'cover';
             });
-
         };
 
+    
         window.addEventListener('resize', resizeMedia);
         resizeMedia();
-
+    
         return () => {
             window.removeEventListener('resize', resizeMedia);
         };
