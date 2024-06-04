@@ -30,9 +30,9 @@ const VideoPopup = ({ mediaUrl, mediaType, onClose }) => {
                     <MdClose style={{ fontSize: '32px', cursor: 'pointer', zIndex: 1000 }} />
                 </button>
                 {mediaType === 'video' ? (
-                    <video src={mediaUrl} controls autoPlay style={{ width: '100%', height: '100%' }} />
+                    <video src={mediaUrl} controls autoPlay className="popup-video" />
                 ) : (
-                    <img src={mediaUrl} alt="" style={{ width: '100%', height: '100%' }} />
+                    <img src={mediaUrl} alt="" className="popup-video" />
                 )}
             </div>
         </div>

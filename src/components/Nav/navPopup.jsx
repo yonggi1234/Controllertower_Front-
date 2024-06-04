@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
 
-const NavPopup = ({ videoUrl, onClose }) => {
+const NavPopup = ({ videoUrl, onClose, isCamera }) => {
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
@@ -17,7 +17,7 @@ const NavPopup = ({ videoUrl, onClose }) => {
 
     return (
         <div className="popup-container">
-            <div className="popup-content">
+            <div className={`popup-content ${isCamera ? 'popup-content-camera' : ''}`}>
                 <button className="popup-close" onClick={onClose}>
                     <MdClose style={{ fontSize: '32px', cursor: 'pointer' }} />
                 </button>
