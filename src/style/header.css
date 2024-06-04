@@ -1,8 +1,8 @@
 .header {
     align-self: flex-start;
     background-color: black;
-    width: 100vw;
-    height: 5vh;
+    width: 100%;
+    height: 7vh;
     display: flex;
     flex-wrap: wrap;
     color: rgb(198, 197, 196);
@@ -10,24 +10,24 @@
 }
 /*================================*/
 .title {
-    width: 40%;
-    height: 70%;
-    /* margin-top: 1%; */
+    width: 35%;
+    height: 100%;
+
     display: flex;
     align-items: center;
-    padding-top: 0.5%; 
-    padding-left: 0.5%; 
+    padding-top: 0.2%; 
+    padding-left: 1%; 
     font-size: 1.25em;
     
 }
 /*================================*/
 .currtime {
     width: 30%;
-    height: 80%;
+    height: 50%;
     display: flex;
-    margin-top: 1%;
-    
-    text-align: right;
+    margin-top: 1.3%;
+    margin-left: -4%;
+    justify-content: flex-end;
     font-size: medium;
     color: rgb(198, 197, 196);
     
@@ -38,8 +38,9 @@
 .buttons {
     display: flex;
     width: 30%;
-    height: 100%;
-    align-items: center;
+    height: 80%;
+    margin-top: 1%;
+    align-items: end;
     font-size: 0.8em;
     color: rgb(198, 197, 196);
 }
@@ -51,19 +52,18 @@
     text-decoration: none;
     
     width: 30%;
-    height: 70%;
+    height: 78%;
     margin-left: 20px;
     padding: 4px;
-    border: 1px solid ba;
     transition-duration: 0.2s;
 }
 
 .pButton:hover {
-    height: 70%;
-    margin-bottom: -1%;
-    border-radius: 0.4rem 0.4rem 0 0;
+    height: 80%;
+    margin-bottom: -0.8%;
+    border-radius: 0.2rem 0.2rem 0 0;
     background-color: rgb(34, 33, 39);
-    border-top: solid 1px rgb(100,61,179);
+    border-top: solid 4px rgb(100,61,179);
     
     a{
         color: rgb(97, 95, 98);

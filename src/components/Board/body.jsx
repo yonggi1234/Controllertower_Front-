@@ -5,10 +5,8 @@ function Body() {
 
     
     return (
-            <div className="screen">
-                <div>
-                    <Local/>
-                </div>
+            <div className='content_container' >
+                <Local/>
             </div>
     );
 }

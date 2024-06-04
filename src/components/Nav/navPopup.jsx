@@ -26,4 +26,5 @@ const NavPopup = ({ videoUrl, onClose }) => {
         </div>
     );
 };
+
 export default NavPopup;

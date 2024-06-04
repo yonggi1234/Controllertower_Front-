@@ -1,6 +1,7 @@
 .list-container{
   width: 100%;
   float: left;
+  padding-left: 10px;
 }
 
 .container {
@@ -73,8 +74,9 @@
 /*================================*/
 
   .table-container{
-    width: 80%;
+    width: 75vw;
     float: left;
+    margin: 0 auto;
   }
 
 .rwd-table {
@@ -140,9 +142,13 @@
   color: #000;
 }
 
-.rwd-table th,
+.rwd-table th
 .rwd-table td {
-  text-align: left;
+  text-align: right;
+}
+.rwd-table th:last-child
+.rwd-table td:last-child {
+  text-align: center;
 }
 
 .rwd-table {
@@ -189,4 +195,14 @@
   .rwd-table td {
     padding: 1em !important;
   }
+}
+
+.rwd-table td[data-th="Net Amount"] {
+  text-align: center; /* 데이터 셀의 텍스트 가운데 정렬 */
+}
+
+.rwd-table td[data-th="Net Amount"] div {
+  display: flex; /* 이미지를 가운데 정렬하기 위해 flex를 사용합니다. */
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
 }

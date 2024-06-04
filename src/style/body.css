@@ -1,15 +1,27 @@
 .content {
     width: 100vw;
     height: 100vh;
+    /* display: flex; */
+    flex-wrap: wrap;
+    background-color: rgb(34, 33, 39);
+    margin: 0 auto;
+    float: right;
+}
+
+.content_container {
+    width: 77vw;
+    height: 80vh;
     display: flex;
     flex-wrap: wrap;
     background-color: rgb(34, 33, 39);
+    margin: 0 auto;
+    float: right;
 }
 
 /*================================*/
 .screen {
     height: 100%;
-    width: 75%;
+    width: 70vw;
     background-color: inherit;
     
     display: flex;
@@ -38,11 +50,28 @@
 
 .screenbox video{
     height: 30%;
-    weight: 30%;
+    width: 30%;
 }
 
 
  
+/*================================*/
+
+/* .image-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: ${width}px;
+    height: ${height}px;
+} */
+
+.image-div img {
+    max-width: 100%;
+    max-height: 30%;
+    align-self: center;
+}
+
+
 /*================================*/
 
   .local-video {

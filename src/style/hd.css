@@ -1,6 +1,6 @@
 .hd-container {
-    width: 100vw;
-    height: 4%;
+    width: 90vw;
+    height: 2vh;
     background-color: rgb(34, 33, 39);
     display: flex;
     align-items: center;
@@ -51,9 +51,6 @@
         top: 0;
         left: 0;
         display: block;
-    }
-    .screen {
-        width: 100%;
     }
     /*====================================*/
     .content .cross {
