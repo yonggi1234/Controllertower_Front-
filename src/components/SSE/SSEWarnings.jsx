@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const SSEWarnings = ({ setWarnings }) => {
+const SSEWarnings = ({ setWarnings, setHighlightedData }) => {
     useEffect(() => {
         const eventSource = new EventSource('https://gamst.omoknooni.link/camera/stream/');
         eventSource.onmessage = (event) => {
@@ -12,6 +12,7 @@ const SSEWarnings = ({ setWarnings }) => {
                 created_at: eventData.created_at,
                 type: 'Camera'
             };
+
             setWarnings(prevWarnings => {
                 const isDuplicate = prevWarnings.some(warning => warning.video_uid === newCamera.video_uid);
                 if (isDuplicate) {
@@ -19,12 +20,24 @@ const SSEWarnings = ({ setWarnings }) => {
                 }
                 return [newCamera, ...prevWarnings];
             });
+
+            setHighlightedData(prevData => {
+                if (prevData.some(item => item.video_uid === newCamera.video_uid)) {
+                    return prevData;
+                } else {
+                    return [...prevData, newCamera];
+                }
+            });
+
+            setTimeout(() => {
+                setHighlightedData(prevData => prevData.filter(item => item.video_uid !== newCamera.video_uid));
+            }, 3000);
         };
 
         return () => {
             eventSource.close();
         };
-    }, [setWarnings]);
+    }, [setWarnings, setHighlightedData]);
 
     return null;
 };
