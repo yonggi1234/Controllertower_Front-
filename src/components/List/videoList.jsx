@@ -5,17 +5,20 @@ import ListPopup from './ListPopup';
 
 Modal.setAppElement('#root');
 
-const FetchWarnings = ({ setWarnings }) => {
-  useEffect(() => {
-    const warningURLs = Array.from({ length: 6 }, (_, i) => `https://gamst.omoknooni.link/video/${i + 1}/risk/`);
+const useFetchWarnings = () => {
+  const [warnings, setWarnings] = useState([]);
 
-    Promise.all(
-      warningURLs.map(url =>
-        fetch(url)
-          .then(response => response.json())
-          .then(data => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const warningURLs = Array.from({ length: 6 }, (_, i) => `https://gamst.omoknooni.link/video/${i + 1}/risk/`);
+
+      try {
+        const warningsData = await Promise.all(
+          warningURLs.map(async url => {
+            const response = await fetch(url);
+            const data = await response.json();
             if (data && data.results) {
-              const fetchedData = data.results.map(result => ({
+              return data.results.map(result => ({
                 id: parseInt(url.match(/\/video\/(\d+)\/risk/)[1]),
                 url: result.clip_url,
                 title: `Video ${parseInt(url.match(/\/video\/(\d+)\/risk/)[1])}`,
@@ -23,32 +26,35 @@ const FetchWarnings = ({ setWarnings }) => {
                 type: 'Video',
                 length: result.length, 
               }));
-              return fetchedData;
             } else {
               console.error('Invalid video data:', data);
               return [];
             }
           })
-          .catch(error => {
-            console.error('Error fetching video data:', error);
-            return [];
-          })
-      )
-    ).then(warningsData => {
-      const mergedWarnings = warningsData.flat();
-      setWarnings(prevWarnings => {
-        const uniqueWarnings = mergedWarnings.filter(newWarning => !prevWarnings.some(existingWarning => newWarning.id === existingWarning.id));
-        return [...prevWarnings, ...uniqueWarnings];
-      });
-    });
-  }, [setWarnings]);
+        );
 
-  return null;
+        const mergedWarnings = warningsData.flat();
+        setWarnings(prevWarnings => {
+          const uniqueWarnings = mergedWarnings.filter(newWarning => !prevWarnings.some(existingWarning => newWarning.url === existingWarning.url));
+          return [...prevWarnings, ...uniqueWarnings];
+        });
+      } catch (error) {
+        console.error('Error fetching video data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return warnings;
 };
 
-const SSEWarnings = ({ setWarnings }) => {
+const useSSEWarnings = () => {
+  const [warnings, setWarnings] = useState([]);
+
   useEffect(() => {
     const eventSource = new EventSource('https://gamst.omoknooni.link/camera/stream/');
+    
     eventSource.onmessage = (event) => {
       const eventData = JSON.parse(event.data);
       const newCamera = {
@@ -71,25 +77,29 @@ const SSEWarnings = ({ setWarnings }) => {
     return () => {
       eventSource.close();
     };
-  }, [setWarnings]);
+  }, []);
 
-  return null;
+  return warnings;
 };
 
 function VideoList() {
-  const [videos, setVideos] = useState([]);
   const [sortOption, setSortOption] = useState(null);
   const [selectedId, setSelectedId] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
+  const fetchWarnings = useFetchWarnings();
+  const sseWarnings = useSSEWarnings();
+
+  const warnings = selectedId === 'Camera' ? sseWarnings : fetchWarnings;
+
   const sortVideos = (option) => {
     if (option === 'id') {
-      return [...videos].sort((a, b) => b.id - a.id);
+      return [...warnings].sort((a, b) => b.id - a.id);
     } else if (option === 'date') {
-      return [...videos].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      return [...warnings].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     } else {
-      return [...videos].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      return [...warnings].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     }
   };
 
@@ -115,32 +125,19 @@ function VideoList() {
     setSelectedVideo(null);
   };
 
-  const filteredVideos = videos.filter(video => {
-    if (selectedId === '') {
-      return true; // Show all videos if no ID is selected
-    } else if (selectedId === 'Camera') {
-      return video.type === 'Camera';
-    } else {
-      return video.id === parseInt(selectedId);
-    }
-  });
-
   const sortedVideos = sortVideos(sortOption);
 
   return (
     <div className='list-container'>
-      <FetchWarnings setWarnings={setVideos} />
-      <SSEWarnings setWarnings={setVideos} />
-
       <div className="select-container">
         <div className="select">
           <div className="dropdown">
             <select value={selectedId} onChange={(e) => setSelectedId(e.target.value)}>
-              <option value="">모든 ID</option>
+              <option value="">Video</option>
               <option value="Camera">Camera</option>
-              {[1, 2, 3, 4, 5, 6].map(id => (
-                <option key={id} value={id}>{id}</option>
-              ))}
+              {/* {[1, 2, 3, 4, 5, 6].map(id => (
+                <option key={id} value={id} style={{ display: selectedId === 'Camera' ? 'none' : (warnings.some(video => video.id === id && video.type !== 'Camera') ? 'none' : 'block') }}>{id}</option>
+              ))} */}
             </select>
           </div>
         </div>
@@ -157,92 +154,26 @@ function VideoList() {
               <th>영상 길이</th>
               <th>이미지</th>
             </tr>
-            {selectedId === '' ? sortedVideos.map(video => (
-    <tr key={video.id}>
-        <td data-th="Supplier Code">{video.id}</td>
-        <td data-th="Supplier Name">발생</td>
-        <td data-th="Invoice Number">{video.type === 'Camera' ? 'Camera' : video.title}</td>
-        <td data-th="Invoice Date">{formatDate(video.created_at)}</td>
-        <td data-th="Due Date">{video.length+'초'}</td>
-        <td data-th="Net Amount">
-            <div onClick={() => openModal(video)} style={{ cursor: 'pointer' }}>
-                <ReactPlayer url={video.url} controls={true} width={'150px'} height={'100px'} onClick={(e) => e.stopPropagation()} />
-            </div>
-        </td>
-    </tr>
-)) : videos.map(video => {
-    if (selectedId === 'Camera') {
-        if (video.type === 'Camera') {
-            return (
-                <tr key={video.id}>
-                    <td data-th="Supplier Code">{video.id}</td>
-                    <td data-th="Supplier Name">발생</td>
-                    <td data-th="Invoice Number">Camera</td>
-                    <td data-th="Invoice Date">{formatDate(video.created_at)}</td>
-                    <td data-th="Due Date">{video.length+'초'}</td>
-                    <td data-th="Net Amount">
-                        <div onClick={() => openModal(video)} style={{ cursor: 'pointer' }}>
-                            <ReactPlayer url={video.url} controls={true} width={'150px'} height={'100px'} onClick={(e) => e.stopPropagation()} />
-                        </div>
-                    </td>
-                </tr>
-            );
-        } else {
-            return null;
-        }
-    } else {
-        if (video.id === parseInt(selectedId)) {
-            return (
-                <tr key={video.id}>
-                    <td data-th="Supplier Code">{video.id}</td>
-                    <td data-th="Supplier Name">발생</td>
-                    <td data-th="Invoice Number">{video.title}</td>
-                    <td data-th="Invoice Date">{formatDate(video.created_at)}</td>
-                    <td data-th="Due Date">{video.length+'초'}</td>
-                    <td data-th="Net Amount">
-                        <div onClick={() => openModal(video)} style={{ cursor: 'pointer' }}>
-                            <ReactPlayer url={video.url} controls={true} width={'150px'} height={'100px'} onClick={(e) => e.stopPropagation()} />
-                        </div>
-                    </td>
-                </tr>
-            );
-        } else {
-            return null;
-        }
-    }
-})}
-
+            {sortedVideos.map(video => (
+              <tr key={video.url}>
+                <td data-th="Supplier Code">{video.id}</td>
+                <td data-th="Supplier Name">발생</td>
+                <td data-th="Invoice Number">{video.type === 'Camera' ? 'Camera' : video.title}</td>
+                <td data-th="Invoice Date">{formatDate(video.created_at)}</td>
+                <td data-th="Due Date">{video.length + '초'}</td>
+                <td data-th="Net Amount">
+                  <div onClick={() => openModal(video)} style={{ cursor: 'pointer' }}>
+                    <ReactPlayer url={video.url} controls={true} width={'150px'} height={'100px'} onClick={(e) => e.stopPropagation()} />
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
-
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Video Modal"
-        style={{
-          content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            width: '800px',
-            height: '600px',
-            backgroundColor: 'black',
-            display: 'flex',
-            flexDirection: 'column',
-          }
-        }}
-        overlayClassName="custom-modal-overlay"
-        closeTimeoutMS={200}
-        shouldCloseOnOverlayClick={true}
-      >
-        {selectedVideo && (
-          <ListPopup videoUrl={selectedVideo.url} onClose={closeModal} />
-        )}
-      </Modal>
+      {selectedVideo && (
+        <ListPopup videoUrl={selectedVideo.url} onClose={closeModal} />
+      )}
     </div>
   );
 }

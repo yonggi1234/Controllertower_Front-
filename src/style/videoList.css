@@ -15,9 +15,7 @@
 /*================================*/
 
 .select-container{
-  /* position: relative; */
-  /* padding: 30px 30px 15px 30px; */
-  /* padding-left: 30px; */
+  position: relative;
 }
 .select{
   align-items: center;
@@ -26,7 +24,6 @@
   padding: 10px  0 10px 0;
   width: 70%;
   height: 100%;
-  /* background-color: #cfe1e4;    */
 
 }
 .checkbox-group{
